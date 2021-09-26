@@ -33,10 +33,13 @@ public class ErrorAction implements ErrorController {
     @Autowired
     private ExceptionWrapper exceptionWrapper;
 
-
-
     public ErrorAction() {
     }
+
+
+
+
+
 
     @RequestMapping({"/error"})
     public Object error(WebRequest webRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
