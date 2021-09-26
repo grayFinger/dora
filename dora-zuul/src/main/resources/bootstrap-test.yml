@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://nacos.chachacha.top:80
+        service: ${spring.application.name}
+      config:
+        server-addr: http://nacos.chachacha.top:80
+        file-extension: yaml
+logging:
+  level:
+    root: info
+
+server:
+  port: 9000
+zuul:
+  add-host-header: true
+  sensitiveHeaders: Cookie,Set-Cookie,Authorization
+  routes:
+    admin:
+      path: /api/admin/**
+      serviceId: dora-admin
+      stripPrefix: false
+

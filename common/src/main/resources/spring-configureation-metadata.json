@@ -1,0 +1,398 @@
+{
+  "hints": [
+    {
+      "values": [
+        {
+          "description": "普通json格式输出.",
+          "value": "common"
+        },
+        {
+          "description": "请求头输出.",
+          "value": "header"
+        }
+      ],
+      "name": "spring.out.wrapper",
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "values": [
+        {
+          "description": "转换普通json格式.",
+          "value": "common"
+        },
+        {
+          "description": "转换响应头输出.",
+          "value": "header"
+        }
+      ],
+      "name": "spring.in.wrapper",
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "spring.out.ignore.path",
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "hystrix.command.default.execution.isolation.strategy",
+      "providers": [
+        {"name": "any"}
+      ],
+      "values": [
+        {"description":  "线程", "value": "THREAD"},
+        {"description":  "信号量", "value": "SEMAPHORE"}
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "name": "spring.redis",
+      "sourceType": "com.chinacreator.hdh.common.cache.redis.RedisConfig"
+    },
+    {
+      "name": "spring.guava",
+      "sourceType": "com.chinacreator.hdh.common.cache.guava.GuavaConfig"
+    },
+    {
+      "name": "spring.http",
+      "type": "com.chinacreator.hdh.common.config.HttpConfig",
+      "sourceType": "com.chinacreator.hdh.common.config.HttpConfig"
+    },
+    {
+      "name": "thread.pool",
+      "type": "com.chinacreator.hdh.common.config.ExecutorAutoConfig",
+      "sourceType": "com.chinacreator.hdh.common.config.ExecutorAutoConfig"
+    },
+    {
+      "name": "swagger",
+      "type": "com.chinacreator.hdh.common.config.SwaggerConfig",
+      "sourceType": "com.chinacreator.hdh.common.config.SwaggerConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.redis.expires",
+      "defaultValue": -1,
+      "type": "java.lang.Integer",
+      "description": "缓存全局过期事件."
+    },
+    {
+      "name": "spring.guava.expires",
+      "defaultValue": -1,
+      "type": "java.lang.Integer",
+      "description": "缓存全局过期事件."
+    },
+    {
+      "name": "spring.redis.namespace",
+      "description": "缓存命名空间.",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "spring.http.readTimeout",
+      "defaultValue": 100000,
+      "type": "java.lang.Integer",
+      "description": "http读取数据时间，单位：秒."
+    },
+    {
+      "name": "spring.http.connectTimeout",
+      "description": "http连接超时事件，单位：秒.",
+      "defaultValue": 100000,
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "spring.http.maxTotal",
+      "defaultValue": 10000,
+      "type": "java.lang.Integer",
+      "description": "http连接池大小."
+    },
+    {
+      "name": "spring.http.defaultMaxPerRoute",
+      "defaultValue": 10000,
+      "type": "java.lang.Integer",
+      "description": "http每个路由连接池大小."
+    },
+    {
+      "name": "spring.http.retryTimes",
+      "defaultValue": 2,
+      "type": "java.lang.Integer",
+      "description": "http请求重试次数."
+    },
+    {
+      "name": "thread.pool.corePoolSize",
+      "defaultValue": 20,
+      "description": "线程池大小.",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "thread.pool.maxPoolSize",
+      "defaultValue": 200,
+      "description": "线程池最大连接数.",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "thread.pool.queueCapacity",
+      "type": "java.lang.Integer",
+      "description": "线程池有界队列容量.",
+      "defaultValue": 100
+    },
+    {
+      "name": "thread.pool.threadNamePrefix",
+      "type": "java.lang.String",
+      "description": "线程池命名空间.",
+      "defaultValue": "csatv"
+    },
+    {
+      "name": "thread.pool.keepAliveSeconds",
+      "type": "java.lang.Integer",
+      "description": "空闲时间.",
+      "defaultValue": 300
+    },
+    {
+      "name": "swagger.basePackage",
+      "type": "java.lang.String",
+      "description": "扫描包路径.",
+      "defaultValue": "cn.csatv"
+    },
+    {
+      "name": "swagger.title",
+      "type": "java.lang.String",
+      "description": "接口标题."
+    },
+    {
+      "name": "swagger.description",
+      "type": "java.lang.String",
+      "description": "接口描述."
+    },
+    {
+      "name": "swagger.contact",
+      "type": "java.lang.String",
+      "description": "接口联系人."
+    },
+    {
+      "name": "swagger.version",
+      "type": "java.lang.String",
+      "description": "接口版本号."
+    },
+    {
+      "name": "spring.out.wrapper",
+      "type": "java.lang.String",
+      "description": "接口输出格式.",
+      "defaultValue": "header"
+    },
+    {
+      "name": "spring.in.wrapper",
+      "type": "java.lang.String",
+      "description": "接口格式转换.",
+      "defaultValue": "header"
+    },
+    {
+      "name": "spring.out.ignore.path",
+      "type": "java.lang.String",
+      "description": "接口格式不转换的路径，多个用逗号隔开."
+    },
+    {
+      "name": "hystrix.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启断路器",
+      "defaultValue": false
+    },
+    {
+      "name": "hystrix.command.default.circuitBreaker.enabled",
+      "type": "java.lang.Boolean",
+      "description": "确定断路器是否用于跟踪运行状况和短路请求",
+      "defaultValue": true
+    },
+    {
+      "name": "hystrix.command.default.circuitBreaker.errorThresholdPercentage",
+      "type": "java.lang.Integer",
+      "description": "失败率达到多少百分比后熔断",
+      "defaultValue": 50
+    },
+    {
+      "name": "hystrix.command.default.circuitBreaker.forceClosed",
+      "type": "java.lang.Boolean",
+      "description": "该属性如果为真，则迫使断路器进入闭合状态，其中它将允许请求，而不考虑误差百分比",
+      "defaultValue": false
+    },
+    {
+      "name": "hystrix.command.default.circuitBreaker.forceOpen",
+      "type": "java.lang.Boolean",
+      "description": "属性如果为真，强制断路器进入打开（跳闸）状态，其中它将拒绝所有请求",
+      "defaultValue": false
+    },
+    {
+      "name": "hystrix.command.default.circuitBreaker.requestVolumeThreshold",
+      "type": "java.lang.Integer",
+      "description": "熔断触发的最小个数/10s",
+      "defaultValue": 20
+    },
+    {
+      "name": "hystrix.command.default.circuitBreaker.sleepWindowInMilliseconds",
+      "type": "java.lang.Integer",
+      "description": "熔断多少秒后去尝试请求",
+      "defaultValue": 10000
+    },
+    {
+      "name": "hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests",
+      "type": "java.lang.Integer",
+      "description": "设置当使用ExecutionIsolationStrategy.SEMAPHORE时，HystrixCommand.run()方法允许的最大请求数。如果达到最大并发数时，后续请求会被拒绝",
+      "defaultValue": 10
+    },
+    {
+      "name": "hystrix.command.default.execution.isolation.strategy",
+      "type": "com.netflix.hystrix.HystrixCommandProperties.ExecutionIsolationStrategy",
+      "description": "设置HystrixCommand.run()的隔离策略",
+      "defaultValue": "THREAD"
+    },
+    {
+      "name": "hystrix.command.default.execution.isolation.thread.interruptOnTimeout",
+      "type": "java.lang.Boolean",
+      "description": "设置HystrixCommand.run()的执行是否在超时发生时被中断",
+      "defaultValue": true
+    },
+    {
+      "name": "hystrix.command.default.execution.isolation.thread.interruptOnFutureCancel",
+      "type": "java.lang.Boolean",
+      "description": "设置HystrixCommand.run()的执行但取消动作发生时候可以响应中断",
+      "defaultValue": false
+    },
+    {
+      "name": "hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds",
+      "type": "java.lang.Integer",
+      "description": "设置调用者等待命令执行的超时限制，超过此时间，HystrixCommand被标记为TIMEOUT，并执行回退逻辑",
+      "defaultValue": 5000
+    },
+    {
+      "name": "hystrix.command.default.execution.timeout.enabled",
+      "type": "java.lang.Boolean",
+      "description": "设置HystrixCommand.run()的执行是否有超时限制",
+      "defaultValue": true
+    },
+    {
+      "name": "hystrix.command.default.fallback.isolation.semaphore.maxConcurrentRequests",
+      "type": "java.lang.Integer",
+      "description": "设置调用线程产生的HystrixCommand.getFallback()方法的允许最大请求数目",
+      "defaultValue": 10
+    },
+    {
+      "name": "hystrix.command.default.fallback.enabled",
+      "type": "java.lang.Boolean",
+      "description": "该属性决定当故障或者拒绝发生时，一个调用将会去尝试HystrixCommand.getFallback()",
+      "defaultValue": true
+    },
+    {
+      "name": "hystrix.command.default.metrics.healthSnapshot.intervalInMilliseconds",
+      "type": "java.lang.Integer",
+      "description": "此属性设置在允许计算成功和错误百分比并影响断路器状态的健康快照之间等待的时间",
+      "defaultValue": 500
+    },
+    {
+      "name": "hystrix.command.default.metrics.rollingPercentile.bucketSize",
+      "type": "java.lang.Integer",
+      "description": "此属性设置每个存储桶保留的最大执行次数。如果在这段时间内发生更多的执行，它们将绕回并开始在桶的开始处重写",
+      "defaultValue": 100
+    },
+    {
+      "name": "hystrix.command.default.metrics.rollingPercentile.enabled",
+      "type": "java.lang.Boolean",
+      "description": "此属性指示是否应以百分位数跟踪和计算执行延迟。 如果禁用它们，则所有摘要统计信息（平均值，百分位数）都将返回-1",
+      "defaultValue": true
+    },
+    {
+      "name": "hystrix.command.default.metrics.rollingPercentile.timeInMilliseconds",
+      "type": "java.lang.Integer",
+      "description": "此属性设置滚动窗口的持续时间，其中保留执行时间以允许百分位数计算，以毫秒为单位",
+      "defaultValue": 60000
+    },
+    {
+      "name": "hystrix.command.default.metrics.rollingPercentile.numBuckets",
+      "type": "java.lang.Integer",
+      "description": "此属性设置rollingPercentile窗口将划分的桶的数量",
+      "defaultValue": 6
+    },
+    {
+      "name": "hystrix.command.default.metrics.rollingStats.timeInMilliseconds",
+      "type": "java.lang.Integer",
+      "description": "此属性设置统计滚动窗口的持续时间（以毫秒为单位）。对于断路器的使用和发布Hystrix保持多长时间的指标",
+      "defaultValue": 10000
+    },
+    {
+      "name": "hystrix.command.default.metrics.rollingStats.numBuckets",
+      "type": "java.lang.Integer",
+      "description": "此属性设置rollingstatistical窗口划分的桶数",
+      "defaultValue": 10
+    },
+    {
+      "name": "hystrix.command.default.requestCache.enabled",
+      "type": "java.lang.Boolean",
+      "description": "设置HystrixCommand.getCacheKey()是否启用，由HystrixRequestCache通过请求缓存提供去重复数据功能",
+      "defaultValue": true
+    },
+    {
+      "name": "hystrix.command.default.requestLog.enabled",
+      "type": "java.lang.Boolean",
+      "description": "设置HystrixCommand执行和事件是否要记录日志到HystrixRequestLog",
+      "defaultValue": true
+    },
+    {
+      "name": "hystrix.threadpool.default.coreSize",
+      "type": "java.lang.Integer",
+      "description": "设置核心线程池大小",
+      "defaultValue": 10
+    },
+    {
+      "name": "hystrix.threadpool.default.maximumSize",
+      "type": "java.lang.Integer",
+      "description": "设置线程池最大值",
+      "defaultValue": 10
+    },
+    {
+      "name": "hystrix.threadpool.default.keepAliveTimeMinutes",
+      "type": "java.lang.Integer",
+      "description": "设置存活时间，单位分钟。如果coreSize小于maximumSize，那么该属性控制一个线程从实用完成到被释放的时间",
+      "defaultValue": 1
+    },
+    {
+      "name": "hystrix.threadpool.default.maxQueueSize",
+      "type": "java.lang.Integer",
+      "description": "设置BlockingQueue最大的队列值",
+      "defaultValue": -1
+    },
+    {
+      "name": "hystrix.threadpool.default.queueSizeRejectionThreshold",
+      "type": "java.lang.Integer",
+      "description": "设置队列拒绝的阈值",
+      "defaultValue": 5
+    },
+    {
+      "name": "hystrix.threadpool.default.allowMaximumSizeToDivergeFromCoreSize",
+      "type": "java.lang.Boolean",
+      "description": "该属性允许maximumSize起作用。属性值可以等于或者大于coreSize值，设置coreSize小于maximumSize的线程池能够支持maximumSize的并发数，但是会将不活跃的线程返回到系统中去",
+      "defaultValue": false
+    },
+    {
+      "name": "hystrix.threadpool.default.metrics.rollingStats.timeInMilliseconds",
+      "type": "java.lang.Integer",
+      "description": "设置统计的滚动窗口的时间段大小。该属性是线程池保持指标时间长短",
+      "defaultValue": 10000
+    },
+    {
+      "name": "hystrix.threadpool.default.metrics.rollingStats.numBuckets",
+      "type": "java.lang.Integer",
+      "description": "设置滚动的统计窗口被分成的桶（bucket）的数目",
+      "defaultValue": 10
+    }
+
+  ]
+}

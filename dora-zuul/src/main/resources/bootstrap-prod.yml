@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://10.254.8.155:8848
+        service: ${spring.application.name}
+      config:
+        server-addr: http://10.254.8.155:8848
+        file-extension: yaml
+logging:
+  level:
+    root: info

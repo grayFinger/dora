@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.OrderDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.Order">
+        <result property="orderNo" column="order_no" />
+		<result property="orderSn" column="order_sn" />
+		<result property="memberId" column="member_id" />
+		<result property="supplierId" column="supplier_id" />
+		<result property="supplierName" column="supplier_name" />
+		<result property="orderStatus" column="order_status" />
+		<result property="afterStatus" column="after_status" />
+		<result property="productCount" column="product_count" />
+		<result property="productAmountTotal" column="product_amount_total" />
+		<result property="orderAmountTotal" column="order_amount_total" />
+		<result property="logisticsFee" column="logistics_fee" />
+		<result property="addressId" column="address_id" />
+		<result property="payChannel" column="pay_channel" />
+		<result property="outTradeNo" column="out_trade_no" />
+		<result property="escrowTradeNo" column="escrow_trade_no" />
+		<result property="payTime" column="pay_time" />
+		<result property="deliveryTime" column="delivery_time" />
+		<result property="orderSettlementStatus" column="order_settlement_status" />
+		<result property="orderSettlementTime" column="order_settlement_time" />
+		<result property="isPackage" column="is_package" />
+		<result property="isIntegral" column="is_integral" />
+		<result property="createdAt" column="created_at" jdbcType="TIMESTAMP" />
+		<result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP" />
+		<result property="deletedAt" column="deleted_at" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="orderNo != null and orderNo != ''">order_no = #{orderNo}, </if>
+			<if test="orderSn != null and orderSn != ''">order_sn = #{orderSn}, </if>
+			<if test="memberId != null">member_id = #{memberId}, </if>
+			<if test="supplierId != null">supplier_id = #{supplierId}, </if>
+			<if test="supplierName != null and supplierName != ''">supplier_name = #{supplierName}, </if>
+			<if test="orderStatus != null">order_status = #{orderStatus}, </if>
+			<if test="afterStatus != null">after_status = #{afterStatus}, </if>
+			<if test="productCount != null">product_count = #{productCount}, </if>
+			<if test="productAmountTotal != null">product_amount_total = #{productAmountTotal}, </if>
+			<if test="orderAmountTotal != null">order_amount_total = #{orderAmountTotal}, </if>
+			<if test="logisticsFee != null">logistics_fee = #{logisticsFee}, </if>
+			<if test="addressId != null">address_id = #{addressId}, </if>
+			<if test="payChannel != null">pay_channel = #{payChannel}, </if>
+			<if test="outTradeNo != null and outTradeNo != ''">out_trade_no = #{outTradeNo}, </if>
+			<if test="escrowTradeNo != null and escrowTradeNo != ''">escrow_trade_no = #{escrowTradeNo}, </if>
+			<if test="payTime != null">pay_time = #{payTime}, </if>
+			<if test="deliveryTime != null">delivery_time = #{deliveryTime}, </if>
+			<if test="orderSettlementStatus != null">order_settlement_status = #{orderSettlementStatus}, </if>
+			<if test="orderSettlementTime != null">order_settlement_time = #{orderSettlementTime}, </if>
+			<if test="isPackage != null and isPackage != ''">is_package = #{isPackage}, </if>
+			<if test="isIntegral != null and isIntegral != ''">is_integral = #{isIntegral}, </if>
+			<if test="createdAt != null">created_at = #{createdAt, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedAt != null">updated_at = #{updatedAt, jdbcType=TIMESTAMP}, </if>
+			<if test="deletedAt != null">deleted_at = #{deletedAt, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.orderNo != null and o.orderNo != ''"> and a.order_no = #{o.orderNo}</if>
+			<if test="o.orderSn != null and o.orderSn != ''"> and a.order_sn = #{o.orderSn}</if>
+			<if test="o.memberId != null"> and a.member_id = #{o.memberId}</if>
+			<if test="o.supplierId != null"> and a.supplier_id = #{o.supplierId}</if>
+			<if test="o.supplierName != null and o.supplierName != ''"> and a.supplier_name = #{o.supplierName}</if>
+			<if test="o.orderStatus != null"> and a.order_status = #{o.orderStatus}</if>
+			<if test="o.afterStatus != null"> and a.after_status = #{o.afterStatus}</if>
+			<if test="o.productCount != null"> and a.product_count = #{o.productCount}</if>
+			<if test="o.productAmountTotal != null"> and a.product_amount_total = #{o.productAmountTotal}</if>
+			<if test="o.orderAmountTotal != null"> and a.order_amount_total = #{o.orderAmountTotal}</if>
+			<if test="o.logisticsFee != null"> and a.logistics_fee = #{o.logisticsFee}</if>
+			<if test="o.addressId != null"> and a.address_id = #{o.addressId}</if>
+			<if test="o.payChannel != null"> and a.pay_channel = #{o.payChannel}</if>
+			<if test="o.outTradeNo != null and o.outTradeNo != ''"> and a.out_trade_no = #{o.outTradeNo}</if>
+			<if test="o.escrowTradeNo != null and o.escrowTradeNo != ''"> and a.escrow_trade_no = #{o.escrowTradeNo}</if>
+			<if test="o.payTime != null"> and a.pay_time = #{o.payTime}</if>
+			<if test="o.deliveryTime != null"> and a.delivery_time = #{o.deliveryTime}</if>
+			<if test="o.orderSettlementStatus != null"> and a.order_settlement_status = #{o.orderSettlementStatus}</if>
+			<if test="o.orderSettlementTime != null"> and a.order_settlement_time = #{o.orderSettlementTime}</if>
+			<if test="o.isPackage != null and o.isPackage != ''"> and a.is_package = #{o.isPackage}</if>
+			<if test="o.isIntegral != null and o.isIntegral != ''"> and a.is_integral = #{o.isIntegral}</if>
+			<if test="o.createdAt != null"> and a.created_at = #{o.createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedAt != null"> and a.updated_at = #{o.updatedAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.deletedAt != null"> and a.deleted_at = #{o.deletedAt, jdbcType=TIMESTAMP}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into order
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="orderNo != null and orderNo != ''">,order_no</if>
+			<if test="orderSn != null and orderSn != ''">,order_sn</if>
+			<if test="memberId != null">,member_id</if>
+			<if test="supplierId != null">,supplier_id</if>
+			<if test="supplierName != null and supplierName != ''">,supplier_name</if>
+			<if test="orderStatus != null">,order_status</if>
+			<if test="afterStatus != null">,after_status</if>
+			<if test="productCount != null">,product_count</if>
+			<if test="productAmountTotal != null">,product_amount_total</if>
+			<if test="orderAmountTotal != null">,order_amount_total</if>
+			<if test="logisticsFee != null">,logistics_fee</if>
+			<if test="addressId != null">,address_id</if>
+			<if test="payChannel != null">,pay_channel</if>
+			<if test="outTradeNo != null and outTradeNo != ''">,out_trade_no</if>
+			<if test="escrowTradeNo != null and escrowTradeNo != ''">,escrow_trade_no</if>
+			<if test="payTime != null">,pay_time</if>
+			<if test="deliveryTime != null">,delivery_time</if>
+			<if test="orderSettlementStatus != null">,order_settlement_status</if>
+			<if test="orderSettlementTime != null">,order_settlement_time</if>
+			<if test="isPackage != null and isPackage != ''">,is_package</if>
+			<if test="isIntegral != null and isIntegral != ''">,is_integral</if>
+			<if test="createdAt != null">,created_at</if>
+			<if test="updatedAt != null">,updated_at</if>
+			<if test="deletedAt != null">,deleted_at</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="orderNo != null and orderNo != ''">,#{orderNo}</if>
+			<if test="orderSn != null and orderSn != ''">,#{orderSn}</if>
+			<if test="memberId != null">,#{memberId}</if>
+			<if test="supplierId != null">,#{supplierId}</if>
+			<if test="supplierName != null and supplierName != ''">,#{supplierName}</if>
+			<if test="orderStatus != null">,#{orderStatus}</if>
+			<if test="afterStatus != null">,#{afterStatus}</if>
+			<if test="productCount != null">,#{productCount}</if>
+			<if test="productAmountTotal != null">,#{productAmountTotal}</if>
+			<if test="orderAmountTotal != null">,#{orderAmountTotal}</if>
+			<if test="logisticsFee != null">,#{logisticsFee}</if>
+			<if test="addressId != null">,#{addressId}</if>
+			<if test="payChannel != null">,#{payChannel}</if>
+			<if test="outTradeNo != null and outTradeNo != ''">,#{outTradeNo}</if>
+			<if test="escrowTradeNo != null and escrowTradeNo != ''">,#{escrowTradeNo}</if>
+			<if test="payTime != null">,#{payTime}</if>
+			<if test="deliveryTime != null">,#{deliveryTime}</if>
+			<if test="orderSettlementStatus != null">,#{orderSettlementStatus}</if>
+			<if test="orderSettlementTime != null">,#{orderSettlementTime}</if>
+			<if test="isPackage != null and isPackage != ''">,#{isPackage}</if>
+			<if test="isIntegral != null and isIntegral != ''">,#{isIntegral}</if>
+			<if test="createdAt != null">,#{createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="updatedAt != null">,#{updatedAt, jdbcType=TIMESTAMP}</if>
+			<if test="deletedAt != null">,#{deletedAt, jdbcType=TIMESTAMP}</if>
+        )
+    </insert>
+
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into order
+        (
+            id, id,order_no,order_sn,member_id,supplier_id,supplier_name,order_status,after_status,product_count,product_amount_total,order_amount_total,logistics_fee,address_id,pay_channel,out_trade_no,escrow_trade_no,pay_time,delivery_time,order_settlement_status,order_settlement_time,is_package,is_integral,created_at,updated_at,deleted_at
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderNo},#{item.orderSn},#{item.memberId},#{item.supplierId},#{item.supplierName},#{item.orderStatus},#{item.afterStatus},#{item.productCount},#{item.productAmountTotal},#{item.orderAmountTotal},#{item.logisticsFee},#{item.addressId},#{item.payChannel},#{item.outTradeNo},#{item.escrowTradeNo},#{item.payTime},#{item.deliveryTime},#{item.orderSettlementStatus},#{item.orderSettlementTime},#{item.isPackage},#{item.isIntegral},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.deletedAt, jdbcType=TIMESTAMP}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into order
+        (
+            id, id,order_no,order_sn,member_id,supplier_id,supplier_name,order_status,after_status,product_count,product_amount_total,order_amount_total,logistics_fee,address_id,pay_channel,out_trade_no,escrow_trade_no,pay_time,delivery_time,order_settlement_status,order_settlement_time,is_package,is_integral,created_at,updated_at,deleted_at
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderNo},#{item.orderSn},#{item.memberId},#{item.supplierId},#{item.supplierName},#{item.orderStatus},#{item.afterStatus},#{item.productCount},#{item.productAmountTotal},#{item.orderAmountTotal},#{item.logisticsFee},#{item.addressId},#{item.payChannel},#{item.outTradeNo},#{item.escrowTradeNo},#{item.payTime},#{item.deliveryTime},#{item.orderSettlementStatus},#{item.orderSettlementTime},#{item.isPackage},#{item.isIntegral},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.deletedAt, jdbcType=TIMESTAMP}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			order_no = values(order_no),
+			order_sn = values(order_sn),
+			member_id = values(member_id),
+			supplier_id = values(supplier_id),
+			supplier_name = values(supplier_name),
+			order_status = values(order_status),
+			after_status = values(after_status),
+			product_count = values(product_count),
+			product_amount_total = values(product_amount_total),
+			order_amount_total = values(order_amount_total),
+			logistics_fee = values(logistics_fee),
+			address_id = values(address_id),
+			pay_channel = values(pay_channel),
+			out_trade_no = values(out_trade_no),
+			escrow_trade_no = values(escrow_trade_no),
+			pay_time = values(pay_time),
+			delivery_time = values(delivery_time),
+			order_settlement_status = values(order_settlement_status),
+			order_settlement_time = values(order_settlement_time),
+			is_package = values(is_package),
+			is_integral = values(is_integral),
+			created_at = values(created_at),
+			updated_at = values(updated_at),
+			deleted_at = values(deleted_at)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update order
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from order where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from order a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from order where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from order where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from order
+    </select>
+    
+
+</mapper>
