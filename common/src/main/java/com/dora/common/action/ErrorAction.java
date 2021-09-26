@@ -36,15 +36,14 @@ public class ErrorAction implements ErrorController {
     public ErrorAction() {
     }
 
-
-
-
-
-
     @RequestMapping({"/error"})
     public Object error(WebRequest webRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
         return this.handlerError(webRequest, request, response,ErrorAttributeOptions.defaults());
     }
+
+
+
+
 
     public String getErrorPath() {
         return "/error";
