@@ -25,6 +25,14 @@
                     <artifactId>spring-jcl</artifactId>
                     <groupId>org.springframework</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                    <groupId>com.alibaba.cloud</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                    <groupId>com.alibaba.cloud</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -32,6 +40,12 @@
             <groupId>com.zhao</groupId>
             <artifactId>dora-clients</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>commons-io</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.dora</groupId>
@@ -41,6 +55,22 @@
                 <exclusion>
                     <artifactId>spring-jcl</artifactId>
                     <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-collections</artifactId>
+                    <groupId>commons-collections</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-lang</artifactId>
+                    <groupId>commons-lang</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                    <groupId>com.alibaba.cloud</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                    <groupId>com.alibaba.cloud</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -56,15 +86,58 @@
             <artifactId>redisson</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jcl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.jsqlparser/jsqlparser -->
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>3.1</version>
+        </dependency>
+
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
@@ -76,7 +149,7 @@
                         <artifactId>mybatis-generate-plugin</artifactId>
                         <version>1.0.0</version>
                         <scope>system</scope>
-                        <systemPath>D:/MYCODE/workspace/distributed-blog/dora-main/mybatis-generate-plugin/target/mybatis-generate-plugin-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
+                        <systemPath>D:/MYCODE/workspace/distributed-blog/mybatis-generate-plugin/target/mybatis-generate-plugin-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
                     </dependency>
                     <dependency>
                         <groupId>mysql</groupId>

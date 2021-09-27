@@ -56,7 +56,7 @@ management:
     redis:
       enabled: false
 #################mybatis配置#################
-mybatis-plus:
+mybatis:
   type-aliases-package: com.deng.order.**.bean
   mapper-locations: classpath*:/com/deng/order/**/mapper/*.xml
   config-location: classpath:/mybatis-config.xml

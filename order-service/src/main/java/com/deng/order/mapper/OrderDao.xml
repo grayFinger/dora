@@ -93,7 +93,7 @@
     </sql>
 
     <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
-        insert into order
+        insert into tb_order
         (
             id
             <if test="id != null">,id</if>
@@ -151,11 +151,12 @@
 			<if test="createdAt != null">,#{createdAt, jdbcType=TIMESTAMP}</if>
 			<if test="updatedAt != null">,#{updatedAt, jdbcType=TIMESTAMP}</if>
 			<if test="deletedAt != null">,#{deletedAt, jdbcType=TIMESTAMP}</if>
+		
         )
     </insert>
-
+    
     <insert id="insertList" parameterType="list" useGeneratedKeys="false">
-        insert into order
+        insert into tb_order
         (
             id, id,order_no,order_sn,member_id,supplier_id,supplier_name,order_status,after_status,product_count,product_amount_total,order_amount_total,logistics_fee,address_id,pay_channel,out_trade_no,escrow_trade_no,pay_time,delivery_time,order_settlement_status,order_settlement_time,is_package,is_integral,created_at,updated_at,deleted_at
         )
@@ -168,7 +169,7 @@
     </insert>
 
     <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
-        insert into order
+        insert into tb_order
         (
             id, id,order_no,order_sn,member_id,supplier_id,supplier_name,order_status,after_status,product_count,product_amount_total,order_amount_total,logistics_fee,address_id,pay_channel,out_trade_no,escrow_trade_no,pay_time,delivery_time,order_settlement_status,order_settlement_time,is_package,is_integral,created_at,updated_at,deleted_at
         )
@@ -207,33 +208,33 @@
     </insert>
 
     <update id="update" parameterType="object">
-        update order
+        update tb_order
         <include refid="updateSql"/>
         where id = #{id}
     </update>
 
     <select id="findById" resultMap="resultMap" parameterType="long">
-        select * from order where id = #{id}
+        select * from tb_order where id = #{id}
     </select>
 
     <select id="findByExample" resultMap="resultMap" parameterType="object">
-        select * from order a
+        select * from tb_order a
         <include refid="exampleWhereSql"/>
     </select>
     
     <delete id="removeById" parameterType="long">
-        delete from order where id = #{id}
+        delete from tb_order where id = #{id}
     </delete>
     
     <delete id="removeByIds" parameterType="list">
-        delete from order where id in
+        delete from tb_order where id in
         <foreach collection="ids" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
     </delete>
 
     <select id="findAll" resultMap="resultMap">
-        select * from order
+        select * from tb_order
     </select>
     
 

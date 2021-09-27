@@ -38,9 +38,9 @@
         <redisson.version>3.11.1</redisson.version>
         <mysql-connector.version>8.0.16</mysql-connector.version>
         <jwt.version>0.9.0</jwt.version>
-        <spring.core>5.3.6</spring.core>
+        <spring.core>5.3.0</spring.core>
         <spring.autoconfigure>2.2.0.RELEASE</spring.autoconfigure>
-        <spring.web>5.3.0</spring.web>
+        <spring.web>5.3.9</spring.web>
         <spring.beans>5.3.3</spring.beans>
         <spring.starter.web>2.4.2</spring.starter.web>
         <spring-cloud.bootstrap>3.0.1</spring-cloud.bootstrap>
@@ -49,6 +49,11 @@
         <spring-jcl>5.2.13.RELEASE</spring-jcl>
         <jsr310>2.12.3</jsr310>
         <commons.io>2.6</commons.io>
+        <mybatis.spring>2.0.6</mybatis.spring>
+        <mybatis.version>3.4.6</mybatis.version>
+        <alibaba.nacos.config>2.2.5.RELEASE</alibaba.nacos.config>
+        <alibaba.nacos.discovery>2.2.5.RELEASE</alibaba.nacos.discovery>
+        <mybatis.spring.boot.starter>1.3.2</mybatis.spring.boot.starter>
     </properties>
 
     <dependencies>
@@ -99,6 +104,7 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>${alibaba.nacos.discovery}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>jsr305</artifactId>
@@ -109,6 +115,7 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <version>${alibaba.nacos.config}</version>
         </dependency>
 
         <dependency>
@@ -157,6 +164,13 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.spring.boot.starter}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
@@ -197,17 +211,34 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring.starter.web}</version>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis.spring}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.core}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.web}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.springframework</groupId>-->
-<!--                <artifactId>spring-beans</artifactId>-->
-<!--                <version>${spring.beans}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.beans}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.ibatis</groupId>

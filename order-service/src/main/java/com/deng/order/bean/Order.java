@@ -111,12 +111,12 @@ public class Order extends IDEntity {
 	/**
 	 * 是否是套餐
 	*/
-	private String isPackage;
+	private int isPackage;
 	
 	/**
 	 * 是否是积分产品
 	*/
-	private String isIntegral;
+	private int isIntegral;
 	
 	private Date createdAt;
 	
