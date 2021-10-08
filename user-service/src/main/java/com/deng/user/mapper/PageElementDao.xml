@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.PageElementDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.PageElement">
+        <result property="elementName" column="element_name" />
+		<result property="createTime" column="create_time" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="elementName != null and elementName != ''">element_name = #{elementName}, </if>
+			<if test="createTime != null">create_time = #{createTime}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.elementName != null and o.elementName != ''"> and a.element_name = #{o.elementName}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into tb_page_element
+        (
+            id
+            <if test="elementName != null and elementName != ''">,element_name</if>
+			<if test="createTime != null">,create_time</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="elementName != null and elementName != ''">,#{elementName}</if>
+			<if test="createTime != null">,#{createTime}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_page_element
+        (
+            id, element_name,create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.elementName},#{item.createTime}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_page_element
+        (
+            id, element_name,create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.elementName},#{item.createTime}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			element_name = values(element_name),
+			create_time = values(create_time)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update tb_page_element
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from tb_page_element where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from tb_page_element a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from tb_page_element where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from tb_page_element where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from tb_page_element
+    </select>
+    
+
+</mapper>

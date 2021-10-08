@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.OrderAppraiseDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.OrderAppraise">
+        <result property="orderId" column="order_id" />
+		<result property="descStar" column="desc_star" />
+		<result property="logisticsStar" column="logistics_star" />
+		<result property="attitudeStar" column="attitude_star" />
+		<result property="createdAt" column="created_at" jdbcType="TIMESTAMP" />
+		<result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="orderId != null">order_id = #{orderId}, </if>
+			<if test="level != null and level != ''">level = #{level}, </if>
+			<if test="descStar != null">desc_star = #{descStar}, </if>
+			<if test="logisticsStar != null">logistics_star = #{logisticsStar}, </if>
+			<if test="attitudeStar != null">attitude_star = #{attitudeStar}, </if>
+			<if test="createdAt != null">created_at = #{createdAt, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedAt != null">updated_at = #{updatedAt, jdbcType=TIMESTAMP}, </if>
+			<if test="info != null">info = #{info}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.orderId != null"> and a.order_id = #{o.orderId}</if>
+			<if test="o.level != null and o.level != ''"> and a.level = #{o.level}</if>
+			<if test="o.descStar != null"> and a.desc_star = #{o.descStar}</if>
+			<if test="o.logisticsStar != null"> and a.logistics_star = #{o.logisticsStar}</if>
+			<if test="o.attitudeStar != null"> and a.attitude_star = #{o.attitudeStar}</if>
+			<if test="o.createdAt != null"> and a.created_at = #{o.createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedAt != null"> and a.updated_at = #{o.updatedAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.info != null"> and a.info = #{o.info}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into order_appraise
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="orderId != null">,order_id</if>
+			<if test="level != null and level != ''">,level</if>
+			<if test="descStar != null">,desc_star</if>
+			<if test="logisticsStar != null">,logistics_star</if>
+			<if test="attitudeStar != null">,attitude_star</if>
+			<if test="createdAt != null">,created_at</if>
+			<if test="updatedAt != null">,updated_at</if>
+			<if test="info != null">,info</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="orderId != null">,#{orderId}</if>
+			<if test="level != null and level != ''">,#{level}</if>
+			<if test="descStar != null">,#{descStar}</if>
+			<if test="logisticsStar != null">,#{logisticsStar}</if>
+			<if test="attitudeStar != null">,#{attitudeStar}</if>
+			<if test="createdAt != null">,#{createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="updatedAt != null">,#{updatedAt, jdbcType=TIMESTAMP}</if>
+			<if test="info != null">,#{info}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into order_appraise
+        (
+            id, id,order_id,level,desc_star,logistics_star,attitude_star,created_at,updated_at,info
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderId},#{item.level},#{item.descStar},#{item.logisticsStar},#{item.attitudeStar},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.info}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into order_appraise
+        (
+            id, id,order_id,level,desc_star,logistics_star,attitude_star,created_at,updated_at,info
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderId},#{item.level},#{item.descStar},#{item.logisticsStar},#{item.attitudeStar},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.info}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			order_id = values(order_id),
+			level = values(level),
+			desc_star = values(desc_star),
+			logistics_star = values(logistics_star),
+			attitude_star = values(attitude_star),
+			created_at = values(created_at),
+			updated_at = values(updated_at),
+			info = values(info)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update order_appraise
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from order_appraise where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from order_appraise a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from order_appraise where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from order_appraise where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from order_appraise
+    </select>
+    
+
+</mapper>

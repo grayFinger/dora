@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.SkuAttributeValueDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.SkuAttributeValue">
+        <result property="skuValue" column="sku_value" />
+		<result property="skuKeyId" column="sku_key_id" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="skuValue != null and skuValue != ''">sku_value = #{skuValue}, </if>
+			<if test="skuKeyId != null">sku_key_id = #{skuKeyId}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.skuValue != null and o.skuValue != ''"> and a.sku_value = #{o.skuValue}</if>
+			<if test="o.skuKeyId != null"> and a.sku_key_id = #{o.skuKeyId}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into sku_attribute_value
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="skuValue != null and skuValue != ''">,sku_value</if>
+			<if test="skuKeyId != null">,sku_key_id</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="skuValue != null and skuValue != ''">,#{skuValue}</if>
+			<if test="skuKeyId != null">,#{skuKeyId}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into sku_attribute_value
+        (
+            id, id,sku_value,sku_key_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.skuValue},#{item.skuKeyId}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into sku_attribute_value
+        (
+            id, id,sku_value,sku_key_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.skuValue},#{item.skuKeyId}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			sku_value = values(sku_value),
+			sku_key_id = values(sku_key_id)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update sku_attribute_value
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from sku_attribute_value where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from sku_attribute_value a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from sku_attribute_value where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from sku_attribute_value where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from sku_attribute_value
+    </select>
+    
+
+</mapper>

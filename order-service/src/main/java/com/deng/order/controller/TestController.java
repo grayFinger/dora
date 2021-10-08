@@ -17,4 +17,9 @@ public class TestController {
         orderService.insert(order);
         return order;
     }
+
+    @GetMapping("/selectTest")
+    public Order selectTest(Long id){
+        return orderService.findById(id);
+    }
 }

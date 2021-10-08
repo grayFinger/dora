@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${targetPackage}.dao.${Entity}Dao">
+
+    <resultMap id="resultMap" type="${targetPackage}.bean.${Entity}">
+        ${tools.resultMap(${columns})}
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            ${tools.updateFields(${columns}, "")}
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            ${tools.whereFields(${columns}, "o", "a")}
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into ${tableName}
+        (
+            id
+            ${tools.insertColumns(${columns}, true)}
+        )
+        values
+        (
+            #{id}
+            ${tools.insertFields(${columns}, "", true)}
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into ${tableName}
+        (
+            id, ${tools.insertBatchColumns(${columns})}
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, ${tools.insertBatchFields(${columns}, "item")}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into ${tableName}
+        (
+            id, ${tools.insertBatchColumns(${columns})}
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, ${tools.insertBatchFields(${columns}, "item")}
+        )
+        </foreach>
+        ${tools.duplicateKey(${columns})}
+    </insert>
+
+    <update id="update" parameterType="object">
+        update ${tableName}
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from ${tableName} where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from ${tableName} a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from ${tableName} where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from ${tableName} where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from ${tableName}
+    </select>
+    
+
+</mapper>

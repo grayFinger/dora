@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.SkuAttributeKeyDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.SkuAttributeKey">
+        <result property="skuId" column="sku_id" />
+		<result property="keyName" column="key_name" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="lateUpdateTime" column="late_update_time" jdbcType="TIMESTAMP" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="isTrue" column="is_true" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="skuId != null">sku_id = #{skuId}, </if>
+			<if test="keyName != null and keyName != ''">key_name = #{keyName}, </if>
+			<if test="createTime != null">create_time = #{createTime, jdbcType=TIMESTAMP}, </if>
+			<if test="lateUpdateTime != null">late_update_time = #{lateUpdateTime, jdbcType=TIMESTAMP}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>
+			<if test="userName != null and userName != ''">user_name = #{userName}, </if>
+			<if test="isTrue != null">is_true = #{isTrue}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.skuId != null"> and a.sku_id = #{o.skuId}</if>
+			<if test="o.keyName != null and o.keyName != ''"> and a.key_name = #{o.keyName}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.lateUpdateTime != null"> and a.late_update_time = #{o.lateUpdateTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.userId != null"> and a.user_id = #{o.userId}</if>
+			<if test="o.userName != null and o.userName != ''"> and a.user_name = #{o.userName}</if>
+			<if test="o.isTrue != null"> and a.is_true = #{o.isTrue}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into sku_attribute_key
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="skuId != null">,sku_id</if>
+			<if test="keyName != null and keyName != ''">,key_name</if>
+			<if test="createTime != null">,create_time</if>
+			<if test="lateUpdateTime != null">,late_update_time</if>
+			<if test="userId != null">,user_id</if>
+			<if test="userName != null and userName != ''">,user_name</if>
+			<if test="isTrue != null">,is_true</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="skuId != null">,#{skuId}</if>
+			<if test="keyName != null and keyName != ''">,#{keyName}</if>
+			<if test="createTime != null">,#{createTime, jdbcType=TIMESTAMP}</if>
+			<if test="lateUpdateTime != null">,#{lateUpdateTime, jdbcType=TIMESTAMP}</if>
+			<if test="userId != null">,#{userId}</if>
+			<if test="userName != null and userName != ''">,#{userName}</if>
+			<if test="isTrue != null">,#{isTrue}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into sku_attribute_key
+        (
+            id, id,sku_id,key_name,create_time,late_update_time,user_id,user_name,is_true
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.skuId},#{item.keyName},#{item.createTime, jdbcType=TIMESTAMP},#{item.lateUpdateTime, jdbcType=TIMESTAMP},#{item.userId},#{item.userName},#{item.isTrue}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into sku_attribute_key
+        (
+            id, id,sku_id,key_name,create_time,late_update_time,user_id,user_name,is_true
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.skuId},#{item.keyName},#{item.createTime, jdbcType=TIMESTAMP},#{item.lateUpdateTime, jdbcType=TIMESTAMP},#{item.userId},#{item.userName},#{item.isTrue}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			sku_id = values(sku_id),
+			key_name = values(key_name),
+			create_time = values(create_time),
+			late_update_time = values(late_update_time),
+			user_id = values(user_id),
+			user_name = values(user_name),
+			is_true = values(is_true)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update sku_attribute_key
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from sku_attribute_key where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from sku_attribute_key a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from sku_attribute_key where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from sku_attribute_key where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from sku_attribute_key
+    </select>
+    
+
+</mapper>

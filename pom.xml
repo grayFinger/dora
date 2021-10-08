@@ -22,6 +22,7 @@
         <module>dora-admin</module>
         <module>dora-zuul</module>
         <module>order-service</module>
+        <module>user-service</module>
     </modules>
 
     <properties>
@@ -34,7 +35,7 @@
         <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <fastjson.version>1.2.76</fastjson.version>
-        <druid.version>1.1.10</druid.version>
+        <druid.version>1.2.6</druid.version>
         <redisson.version>3.11.1</redisson.version>
         <mysql-connector.version>8.0.16</mysql-connector.version>
         <jwt.version>0.9.0</jwt.version>
@@ -50,10 +51,11 @@
         <jsr310>2.12.3</jsr310>
         <commons.io>2.6</commons.io>
         <mybatis.spring>2.0.6</mybatis.spring>
-        <mybatis.version>3.4.6</mybatis.version>
+        <mybatis.version>3.5.3</mybatis.version>
         <alibaba.nacos.config>2.2.5.RELEASE</alibaba.nacos.config>
         <alibaba.nacos.discovery>2.2.5.RELEASE</alibaba.nacos.discovery>
-        <mybatis.spring.boot.starter>1.3.2</mybatis.spring.boot.starter>
+        <mybatis.spring.boot.starter>1.3.1</mybatis.spring.boot.starter>
+        <spring.cloud.feign>1.4.7.RELEASE</spring.cloud.feign>
     </properties>
 
     <dependencies>
@@ -124,11 +126,11 @@
             <version>${fastjson.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--            <version>${druid.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jcl</artifactId>
@@ -138,6 +140,7 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -149,6 +152,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-feign -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-feign</artifactId>
+                <version>${spring.cloud.feign}</version>
+            </dependency>
+
 
             <!--Spring Cloud Alibaba 相关依赖-->
             <dependency>

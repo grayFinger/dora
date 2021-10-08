@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.OrderReturnsDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.OrderReturns">
+        <result property="returnsNo" column="returns_no" />
+		<result property="orderId" column="order_id" />
+		<result property="expressNo" column="express_no" />
+		<result property="consigneeRealname" column="consignee_realname" />
+		<result property="consigneeTelphone" column="consignee_telphone" />
+		<result property="consigneeTelphone2" column="consignee_telphone2" />
+		<result property="consigneeAddress" column="consignee_address" />
+		<result property="consigneeZip" column="consignee_zip" />
+		<result property="logisticsType" column="logistics_type" />
+		<result property="logisticsFee" column="logistics_fee" />
+		<result property="orderLogisticsStatus" column="order_logistics_status" />
+		<result property="logisticsSettlementStatus" column="logistics_settlement_status" />
+		<result property="logisticsResultLast" column="logistics_result_last" />
+		<result property="logisticsResult" column="logistics_result" />
+		<result property="logisticsCreateTime" column="logistics_create_time" />
+		<result property="logisticsUpdateTime" column="logistics_update_time" />
+		<result property="logisticsSettlementTime" column="logistics_settlement_time" />
+		<result property="returnsType" column="returns_type" />
+		<result property="handlingWay" column="handling_way" />
+		<result property="returnsAmount" column="returns_amount" />
+		<result property="returnSubmitTime" column="return_submit_time" />
+		<result property="handlingTime" column="handling_time" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="returnsNo != null and returnsNo != ''">returns_no = #{returnsNo}, </if>
+			<if test="orderId != null">order_id = #{orderId}, </if>
+			<if test="expressNo != null and expressNo != ''">express_no = #{expressNo}, </if>
+			<if test="consigneeRealname != null and consigneeRealname != ''">consignee_realname = #{consigneeRealname}, </if>
+			<if test="consigneeTelphone != null and consigneeTelphone != ''">consignee_telphone = #{consigneeTelphone}, </if>
+			<if test="consigneeTelphone2 != null and consigneeTelphone2 != ''">consignee_telphone2 = #{consigneeTelphone2}, </if>
+			<if test="consigneeAddress != null and consigneeAddress != ''">consignee_address = #{consigneeAddress}, </if>
+			<if test="consigneeZip != null and consigneeZip != ''">consignee_zip = #{consigneeZip}, </if>
+			<if test="logisticsType != null and logisticsType != ''">logistics_type = #{logisticsType}, </if>
+			<if test="logisticsFee != null">logistics_fee = #{logisticsFee}, </if>
+			<if test="orderLogisticsStatus != null">order_logistics_status = #{orderLogisticsStatus}, </if>
+			<if test="logisticsSettlementStatus != null">logistics_settlement_status = #{logisticsSettlementStatus}, </if>
+			<if test="logisticsResultLast != null and logisticsResultLast != ''">logistics_result_last = #{logisticsResultLast}, </if>
+			<if test="logisticsResult != null and logisticsResult != ''">logistics_result = #{logisticsResult}, </if>
+			<if test="logisticsCreateTime != null">logistics_create_time = #{logisticsCreateTime}, </if>
+			<if test="logisticsUpdateTime != null">logistics_update_time = #{logisticsUpdateTime}, </if>
+			<if test="logisticsSettlementTime != null">logistics_settlement_time = #{logisticsSettlementTime}, </if>
+			<if test="returnsType != null">returns_type = #{returnsType}, </if>
+			<if test="handlingWay != null and handlingWay != ''">handling_way = #{handlingWay}, </if>
+			<if test="returnsAmount != null">returns_amount = #{returnsAmount}, </if>
+			<if test="returnSubmitTime != null">return_submit_time = #{returnSubmitTime}, </if>
+			<if test="handlingTime != null">handling_time = #{handlingTime}, </if>
+			<if test="remark != null">remark = #{remark}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.returnsNo != null and o.returnsNo != ''"> and a.returns_no = #{o.returnsNo}</if>
+			<if test="o.orderId != null"> and a.order_id = #{o.orderId}</if>
+			<if test="o.expressNo != null and o.expressNo != ''"> and a.express_no = #{o.expressNo}</if>
+			<if test="o.consigneeRealname != null and o.consigneeRealname != ''"> and a.consignee_realname = #{o.consigneeRealname}</if>
+			<if test="o.consigneeTelphone != null and o.consigneeTelphone != ''"> and a.consignee_telphone = #{o.consigneeTelphone}</if>
+			<if test="o.consigneeTelphone2 != null and o.consigneeTelphone2 != ''"> and a.consignee_telphone2 = #{o.consigneeTelphone2}</if>
+			<if test="o.consigneeAddress != null and o.consigneeAddress != ''"> and a.consignee_address = #{o.consigneeAddress}</if>
+			<if test="o.consigneeZip != null and o.consigneeZip != ''"> and a.consignee_zip = #{o.consigneeZip}</if>
+			<if test="o.logisticsType != null and o.logisticsType != ''"> and a.logistics_type = #{o.logisticsType}</if>
+			<if test="o.logisticsFee != null"> and a.logistics_fee = #{o.logisticsFee}</if>
+			<if test="o.orderLogisticsStatus != null"> and a.order_logistics_status = #{o.orderLogisticsStatus}</if>
+			<if test="o.logisticsSettlementStatus != null"> and a.logistics_settlement_status = #{o.logisticsSettlementStatus}</if>
+			<if test="o.logisticsResultLast != null and o.logisticsResultLast != ''"> and a.logistics_result_last = #{o.logisticsResultLast}</if>
+			<if test="o.logisticsResult != null and o.logisticsResult != ''"> and a.logistics_result = #{o.logisticsResult}</if>
+			<if test="o.logisticsCreateTime != null"> and a.logistics_create_time = #{o.logisticsCreateTime}</if>
+			<if test="o.logisticsUpdateTime != null"> and a.logistics_update_time = #{o.logisticsUpdateTime}</if>
+			<if test="o.logisticsSettlementTime != null"> and a.logistics_settlement_time = #{o.logisticsSettlementTime}</if>
+			<if test="o.returnsType != null"> and a.returns_type = #{o.returnsType}</if>
+			<if test="o.handlingWay != null and o.handlingWay != ''"> and a.handling_way = #{o.handlingWay}</if>
+			<if test="o.returnsAmount != null"> and a.returns_amount = #{o.returnsAmount}</if>
+			<if test="o.returnSubmitTime != null"> and a.return_submit_time = #{o.returnSubmitTime}</if>
+			<if test="o.handlingTime != null"> and a.handling_time = #{o.handlingTime}</if>
+			<if test="o.remark != null"> and a.remark = #{o.remark}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into order_returns
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="returnsNo != null and returnsNo != ''">,returns_no</if>
+			<if test="orderId != null">,order_id</if>
+			<if test="expressNo != null and expressNo != ''">,express_no</if>
+			<if test="consigneeRealname != null and consigneeRealname != ''">,consignee_realname</if>
+			<if test="consigneeTelphone != null and consigneeTelphone != ''">,consignee_telphone</if>
+			<if test="consigneeTelphone2 != null and consigneeTelphone2 != ''">,consignee_telphone2</if>
+			<if test="consigneeAddress != null and consigneeAddress != ''">,consignee_address</if>
+			<if test="consigneeZip != null and consigneeZip != ''">,consignee_zip</if>
+			<if test="logisticsType != null and logisticsType != ''">,logistics_type</if>
+			<if test="logisticsFee != null">,logistics_fee</if>
+			<if test="orderLogisticsStatus != null">,order_logistics_status</if>
+			<if test="logisticsSettlementStatus != null">,logistics_settlement_status</if>
+			<if test="logisticsResultLast != null and logisticsResultLast != ''">,logistics_result_last</if>
+			<if test="logisticsResult != null and logisticsResult != ''">,logistics_result</if>
+			<if test="logisticsCreateTime != null">,logistics_create_time</if>
+			<if test="logisticsUpdateTime != null">,logistics_update_time</if>
+			<if test="logisticsSettlementTime != null">,logistics_settlement_time</if>
+			<if test="returnsType != null">,returns_type</if>
+			<if test="handlingWay != null and handlingWay != ''">,handling_way</if>
+			<if test="returnsAmount != null">,returns_amount</if>
+			<if test="returnSubmitTime != null">,return_submit_time</if>
+			<if test="handlingTime != null">,handling_time</if>
+			<if test="remark != null">,remark</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="returnsNo != null and returnsNo != ''">,#{returnsNo}</if>
+			<if test="orderId != null">,#{orderId}</if>
+			<if test="expressNo != null and expressNo != ''">,#{expressNo}</if>
+			<if test="consigneeRealname != null and consigneeRealname != ''">,#{consigneeRealname}</if>
+			<if test="consigneeTelphone != null and consigneeTelphone != ''">,#{consigneeTelphone}</if>
+			<if test="consigneeTelphone2 != null and consigneeTelphone2 != ''">,#{consigneeTelphone2}</if>
+			<if test="consigneeAddress != null and consigneeAddress != ''">,#{consigneeAddress}</if>
+			<if test="consigneeZip != null and consigneeZip != ''">,#{consigneeZip}</if>
+			<if test="logisticsType != null and logisticsType != ''">,#{logisticsType}</if>
+			<if test="logisticsFee != null">,#{logisticsFee}</if>
+			<if test="orderLogisticsStatus != null">,#{orderLogisticsStatus}</if>
+			<if test="logisticsSettlementStatus != null">,#{logisticsSettlementStatus}</if>
+			<if test="logisticsResultLast != null and logisticsResultLast != ''">,#{logisticsResultLast}</if>
+			<if test="logisticsResult != null and logisticsResult != ''">,#{logisticsResult}</if>
+			<if test="logisticsCreateTime != null">,#{logisticsCreateTime}</if>
+			<if test="logisticsUpdateTime != null">,#{logisticsUpdateTime}</if>
+			<if test="logisticsSettlementTime != null">,#{logisticsSettlementTime}</if>
+			<if test="returnsType != null">,#{returnsType}</if>
+			<if test="handlingWay != null and handlingWay != ''">,#{handlingWay}</if>
+			<if test="returnsAmount != null">,#{returnsAmount}</if>
+			<if test="returnSubmitTime != null">,#{returnSubmitTime}</if>
+			<if test="handlingTime != null">,#{handlingTime}</if>
+			<if test="remark != null">,#{remark}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into order_returns
+        (
+            id, id,returns_no,order_id,express_no,consignee_realname,consignee_telphone,consignee_telphone2,consignee_address,consignee_zip,logistics_type,logistics_fee,order_logistics_status,logistics_settlement_status,logistics_result_last,logistics_result,logistics_create_time,logistics_update_time,logistics_settlement_time,returns_type,handling_way,returns_amount,return_submit_time,handling_time,remark
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.returnsNo},#{item.orderId},#{item.expressNo},#{item.consigneeRealname},#{item.consigneeTelphone},#{item.consigneeTelphone2},#{item.consigneeAddress},#{item.consigneeZip},#{item.logisticsType},#{item.logisticsFee},#{item.orderLogisticsStatus},#{item.logisticsSettlementStatus},#{item.logisticsResultLast},#{item.logisticsResult},#{item.logisticsCreateTime},#{item.logisticsUpdateTime},#{item.logisticsSettlementTime},#{item.returnsType},#{item.handlingWay},#{item.returnsAmount},#{item.returnSubmitTime},#{item.handlingTime},#{item.remark}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into order_returns
+        (
+            id, id,returns_no,order_id,express_no,consignee_realname,consignee_telphone,consignee_telphone2,consignee_address,consignee_zip,logistics_type,logistics_fee,order_logistics_status,logistics_settlement_status,logistics_result_last,logistics_result,logistics_create_time,logistics_update_time,logistics_settlement_time,returns_type,handling_way,returns_amount,return_submit_time,handling_time,remark
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.returnsNo},#{item.orderId},#{item.expressNo},#{item.consigneeRealname},#{item.consigneeTelphone},#{item.consigneeTelphone2},#{item.consigneeAddress},#{item.consigneeZip},#{item.logisticsType},#{item.logisticsFee},#{item.orderLogisticsStatus},#{item.logisticsSettlementStatus},#{item.logisticsResultLast},#{item.logisticsResult},#{item.logisticsCreateTime},#{item.logisticsUpdateTime},#{item.logisticsSettlementTime},#{item.returnsType},#{item.handlingWay},#{item.returnsAmount},#{item.returnSubmitTime},#{item.handlingTime},#{item.remark}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			returns_no = values(returns_no),
+			order_id = values(order_id),
+			express_no = values(express_no),
+			consignee_realname = values(consignee_realname),
+			consignee_telphone = values(consignee_telphone),
+			consignee_telphone2 = values(consignee_telphone2),
+			consignee_address = values(consignee_address),
+			consignee_zip = values(consignee_zip),
+			logistics_type = values(logistics_type),
+			logistics_fee = values(logistics_fee),
+			order_logistics_status = values(order_logistics_status),
+			logistics_settlement_status = values(logistics_settlement_status),
+			logistics_result_last = values(logistics_result_last),
+			logistics_result = values(logistics_result),
+			logistics_create_time = values(logistics_create_time),
+			logistics_update_time = values(logistics_update_time),
+			logistics_settlement_time = values(logistics_settlement_time),
+			returns_type = values(returns_type),
+			handling_way = values(handling_way),
+			returns_amount = values(returns_amount),
+			return_submit_time = values(return_submit_time),
+			handling_time = values(handling_time),
+			remark = values(remark)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update order_returns
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from order_returns where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from order_returns a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from order_returns where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from order_returns where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from order_returns
+    </select>
+    
+
+</mapper>

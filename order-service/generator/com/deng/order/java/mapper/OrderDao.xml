@@ -24,9 +24,9 @@
 		<result property="orderSettlementTime" column="order_settlement_time" />
 		<result property="isPackage" column="is_package" />
 		<result property="isIntegral" column="is_integral" />
-		<result property="createdAt" column="created_at" jdbcType="TIMESTAMP" />
-		<result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP" />
-		<result property="deletedAt" column="deleted_at" jdbcType="TIMESTAMP" />		
+		<result property="createTime" column="create_time" />
+		<result property="updatedTime" column="updated_time" />
+		<result property="deletedTime" column="deleted_time" />		
     </resultMap>
 
     <sql id="updateSql">
@@ -52,11 +52,11 @@
 			<if test="deliveryTime != null">delivery_time = #{deliveryTime}, </if>
 			<if test="orderSettlementStatus != null">order_settlement_status = #{orderSettlementStatus}, </if>
 			<if test="orderSettlementTime != null">order_settlement_time = #{orderSettlementTime}, </if>
-			<if test="isPackage != null and isPackage != ''">is_package = #{isPackage}, </if>
-			<if test="isIntegral != null and isIntegral != ''">is_integral = #{isIntegral}, </if>
-			<if test="createdAt != null">created_at = #{createdAt, jdbcType=TIMESTAMP}, </if>
-			<if test="updatedAt != null">updated_at = #{updatedAt, jdbcType=TIMESTAMP}, </if>
-			<if test="deletedAt != null">deleted_at = #{deletedAt, jdbcType=TIMESTAMP}, </if>			
+			<if test="isPackage != null">is_package = #{isPackage}, </if>
+			<if test="isIntegral != null">is_integral = #{isIntegral}, </if>
+			<if test="createTime != null">create_time = #{createTime}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime}, </if>
+			<if test="deletedTime != null">deleted_time = #{deletedTime}, </if>			
         </set>
     </sql>
 
@@ -83,11 +83,11 @@
 			<if test="o.deliveryTime != null"> and a.delivery_time = #{o.deliveryTime}</if>
 			<if test="o.orderSettlementStatus != null"> and a.order_settlement_status = #{o.orderSettlementStatus}</if>
 			<if test="o.orderSettlementTime != null"> and a.order_settlement_time = #{o.orderSettlementTime}</if>
-			<if test="o.isPackage != null and o.isPackage != ''"> and a.is_package = #{o.isPackage}</if>
-			<if test="o.isIntegral != null and o.isIntegral != ''"> and a.is_integral = #{o.isIntegral}</if>
-			<if test="o.createdAt != null"> and a.created_at = #{o.createdAt, jdbcType=TIMESTAMP}</if>
-			<if test="o.updatedAt != null"> and a.updated_at = #{o.updatedAt, jdbcType=TIMESTAMP}</if>
-			<if test="o.deletedAt != null"> and a.deleted_at = #{o.deletedAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.isPackage != null"> and a.is_package = #{o.isPackage}</if>
+			<if test="o.isIntegral != null"> and a.is_integral = #{o.isIntegral}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime}</if>
+			<if test="o.updatedTime != null"> and a.updated_time = #{o.updatedTime}</if>
+			<if test="o.deletedTime != null"> and a.deleted_time = #{o.deletedTime}</if>
 		
         </where>
     </sql>
@@ -116,11 +116,11 @@
 			<if test="deliveryTime != null">,delivery_time</if>
 			<if test="orderSettlementStatus != null">,order_settlement_status</if>
 			<if test="orderSettlementTime != null">,order_settlement_time</if>
-			<if test="isPackage != null and isPackage != ''">,is_package</if>
-			<if test="isIntegral != null and isIntegral != ''">,is_integral</if>
-			<if test="createdAt != null">,created_at</if>
-			<if test="updatedAt != null">,updated_at</if>
-			<if test="deletedAt != null">,deleted_at</if>
+			<if test="isPackage != null">,is_package</if>
+			<if test="isIntegral != null">,is_integral</if>
+			<if test="createTime != null">,create_time</if>
+			<if test="updatedTime != null">,updated_time</if>
+			<if test="deletedTime != null">,deleted_time</if>
 		
         )
         values
@@ -146,11 +146,11 @@
 			<if test="deliveryTime != null">,#{deliveryTime}</if>
 			<if test="orderSettlementStatus != null">,#{orderSettlementStatus}</if>
 			<if test="orderSettlementTime != null">,#{orderSettlementTime}</if>
-			<if test="isPackage != null and isPackage != ''">,#{isPackage}</if>
-			<if test="isIntegral != null and isIntegral != ''">,#{isIntegral}</if>
-			<if test="createdAt != null">,#{createdAt, jdbcType=TIMESTAMP}</if>
-			<if test="updatedAt != null">,#{updatedAt, jdbcType=TIMESTAMP}</if>
-			<if test="deletedAt != null">,#{deletedAt, jdbcType=TIMESTAMP}</if>
+			<if test="isPackage != null">,#{isPackage}</if>
+			<if test="isIntegral != null">,#{isIntegral}</if>
+			<if test="createTime != null">,#{createTime}</if>
+			<if test="updatedTime != null">,#{updatedTime}</if>
+			<if test="deletedTime != null">,#{deletedTime}</if>
 		
         )
     </insert>
@@ -158,12 +158,12 @@
     <insert id="insertList" parameterType="list" useGeneratedKeys="false">
         insert into tb_order
         (
-            id, id,order_no,order_sn,member_id,supplier_id,supplier_name,order_status,after_status,product_count,product_amount_total,order_amount_total,logistics_fee,address_id,pay_channel,out_trade_no,escrow_trade_no,pay_time,delivery_time,order_settlement_status,order_settlement_time,is_package,is_integral,created_at,updated_at,deleted_at
+            id, id,order_no,order_sn,member_id,supplier_id,supplier_name,order_status,after_status,product_count,product_amount_total,order_amount_total,logistics_fee,address_id,pay_channel,out_trade_no,escrow_trade_no,pay_time,delivery_time,order_settlement_status,order_settlement_time,is_package,is_integral,create_time,updated_time,deleted_time
         )
         values
         <foreach collection="list" item="item" separator=",">
         (
-            #{item.id}, #{item.id},#{item.orderNo},#{item.orderSn},#{item.memberId},#{item.supplierId},#{item.supplierName},#{item.orderStatus},#{item.afterStatus},#{item.productCount},#{item.productAmountTotal},#{item.orderAmountTotal},#{item.logisticsFee},#{item.addressId},#{item.payChannel},#{item.outTradeNo},#{item.escrowTradeNo},#{item.payTime},#{item.deliveryTime},#{item.orderSettlementStatus},#{item.orderSettlementTime},#{item.isPackage},#{item.isIntegral},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.deletedAt, jdbcType=TIMESTAMP}
+            #{item.id}, #{item.id},#{item.orderNo},#{item.orderSn},#{item.memberId},#{item.supplierId},#{item.supplierName},#{item.orderStatus},#{item.afterStatus},#{item.productCount},#{item.productAmountTotal},#{item.orderAmountTotal},#{item.logisticsFee},#{item.addressId},#{item.payChannel},#{item.outTradeNo},#{item.escrowTradeNo},#{item.payTime},#{item.deliveryTime},#{item.orderSettlementStatus},#{item.orderSettlementTime},#{item.isPackage},#{item.isIntegral},#{item.createTime},#{item.updatedTime},#{item.deletedTime}
         )
         </foreach>
     </insert>
@@ -171,12 +171,12 @@
     <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
         insert into tb_order
         (
-            id, id,order_no,order_sn,member_id,supplier_id,supplier_name,order_status,after_status,product_count,product_amount_total,order_amount_total,logistics_fee,address_id,pay_channel,out_trade_no,escrow_trade_no,pay_time,delivery_time,order_settlement_status,order_settlement_time,is_package,is_integral,created_at,updated_at,deleted_at
+            id, id,order_no,order_sn,member_id,supplier_id,supplier_name,order_status,after_status,product_count,product_amount_total,order_amount_total,logistics_fee,address_id,pay_channel,out_trade_no,escrow_trade_no,pay_time,delivery_time,order_settlement_status,order_settlement_time,is_package,is_integral,create_time,updated_time,deleted_time
         )
         values
         <foreach collection="list" item="item" separator=",">
         (
-            #{item.id}, #{item.id},#{item.orderNo},#{item.orderSn},#{item.memberId},#{item.supplierId},#{item.supplierName},#{item.orderStatus},#{item.afterStatus},#{item.productCount},#{item.productAmountTotal},#{item.orderAmountTotal},#{item.logisticsFee},#{item.addressId},#{item.payChannel},#{item.outTradeNo},#{item.escrowTradeNo},#{item.payTime},#{item.deliveryTime},#{item.orderSettlementStatus},#{item.orderSettlementTime},#{item.isPackage},#{item.isIntegral},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.deletedAt, jdbcType=TIMESTAMP}
+            #{item.id}, #{item.id},#{item.orderNo},#{item.orderSn},#{item.memberId},#{item.supplierId},#{item.supplierName},#{item.orderStatus},#{item.afterStatus},#{item.productCount},#{item.productAmountTotal},#{item.orderAmountTotal},#{item.logisticsFee},#{item.addressId},#{item.payChannel},#{item.outTradeNo},#{item.escrowTradeNo},#{item.payTime},#{item.deliveryTime},#{item.orderSettlementStatus},#{item.orderSettlementTime},#{item.isPackage},#{item.isIntegral},#{item.createTime},#{item.updatedTime},#{item.deletedTime}
         )
         </foreach>
         ON DUPLICATE KEY UPDATE
@@ -202,9 +202,9 @@
 			order_settlement_time = values(order_settlement_time),
 			is_package = values(is_package),
 			is_integral = values(is_integral),
-			created_at = values(created_at),
-			updated_at = values(updated_at),
-			deleted_at = values(deleted_at)
+			create_time = values(create_time),
+			updated_time = values(updated_time),
+			deleted_time = values(deleted_time)
     </insert>
 
     <update id="update" parameterType="object">

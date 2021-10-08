@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.PowerOperationDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.PowerOperation">
+        <result property="powerId" column="power_id" />
+		<result property="operationId" column="operation_id" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="powerId != null">power_id = #{powerId}, </if>
+			<if test="operationId != null">operation_id = #{operationId}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.powerId != null"> and a.power_id = #{o.powerId}</if>
+			<if test="o.operationId != null"> and a.operation_id = #{o.operationId}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into power_operation
+        (
+            id
+            <if test="powerId != null">,power_id</if>
+			<if test="operationId != null">,operation_id</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="powerId != null">,#{powerId}</if>
+			<if test="operationId != null">,#{operationId}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into power_operation
+        (
+            id, power_id,operation_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.powerId},#{item.operationId}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into power_operation
+        (
+            id, power_id,operation_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.powerId},#{item.operationId}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			power_id = values(power_id),
+			operation_id = values(operation_id)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update power_operation
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from power_operation where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from power_operation a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from power_operation where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from power_operation where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from power_operation
+    </select>
+    
+
+</mapper>

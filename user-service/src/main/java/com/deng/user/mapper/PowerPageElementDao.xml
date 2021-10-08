@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.PowerPageElementDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.PowerPageElement">
+        <result property="powerId" column="power_id" />
+		<result property="pageElementId" column="page_element_id" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="powerId != null">power_id = #{powerId}, </if>
+			<if test="pageElementId != null">page_element_id = #{pageElementId}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.powerId != null"> and a.power_id = #{o.powerId}</if>
+			<if test="o.pageElementId != null"> and a.page_element_id = #{o.pageElementId}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into power_page_element
+        (
+            id
+            <if test="powerId != null">,power_id</if>
+			<if test="pageElementId != null">,page_element_id</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="powerId != null">,#{powerId}</if>
+			<if test="pageElementId != null">,#{pageElementId}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into power_page_element
+        (
+            id, power_id,page_element_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.powerId},#{item.pageElementId}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into power_page_element
+        (
+            id, power_id,page_element_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.powerId},#{item.pageElementId}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			power_id = values(power_id),
+			page_element_id = values(page_element_id)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update power_page_element
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from power_page_element where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from power_page_element a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from power_page_element where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from power_page_element where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from power_page_element
+    </select>
+    
+
+</mapper>

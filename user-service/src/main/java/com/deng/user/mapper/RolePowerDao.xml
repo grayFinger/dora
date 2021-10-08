@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.RolePowerDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.RolePower">
+        <result property="roleId" column="role_id" />
+		<result property="powerId" column="power_id" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="roleId != null">role_id = #{roleId}, </if>
+			<if test="powerId != null">power_id = #{powerId}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.roleId != null"> and a.role_id = #{o.roleId}</if>
+			<if test="o.powerId != null"> and a.power_id = #{o.powerId}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into role_power
+        (
+            id
+            <if test="roleId != null">,role_id</if>
+			<if test="powerId != null">,power_id</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="roleId != null">,#{roleId}</if>
+			<if test="powerId != null">,#{powerId}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into role_power
+        (
+            id, role_id,power_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.roleId},#{item.powerId}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into role_power
+        (
+            id, role_id,power_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.roleId},#{item.powerId}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			role_id = values(role_id),
+			power_id = values(power_id)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update role_power
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from role_power where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from role_power a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from role_power where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from role_power where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from role_power
+    </select>
+    
+
+</mapper>

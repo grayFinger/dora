@@ -15,18 +15,21 @@ import java.util.List;
 @Configuration
 public class CommonWebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${security:false}")
-    private boolean security;
+//    @Value("${security:false}")
+//    private boolean security;
 
     @Autowired
     private PermissionInterceptor permissionInterceptor;
 
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        if (security)
+//            registry.addInterceptor(permissionInterceptor).addPathPatterns("/api/**");
+//    }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        if (security)
-            registry.addInterceptor(permissionInterceptor).addPathPatterns("/api/**");
+        registry.addInterceptor(permissionInterceptor).addPathPatterns("/api/**");
     }
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new CurrentUserResolver());

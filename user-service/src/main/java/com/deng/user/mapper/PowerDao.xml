@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.PowerDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.Power">
+        <result property="powerType" column="power_type" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="powerType != null and powerType != ''">power_type = #{powerType}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.powerType != null and o.powerType != ''"> and a.power_type = #{o.powerType}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into tb_power
+        (
+            id
+            <if test="powerType != null and powerType != ''">,power_type</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="powerType != null and powerType != ''">,#{powerType}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_power
+        (
+            id, power_type
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.powerType}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_power
+        (
+            id, power_type
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.powerType}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			power_type = values(power_type)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update tb_power
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from tb_power where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from tb_power a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from tb_power where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from tb_power where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from tb_power
+    </select>
+    
+
+</mapper>

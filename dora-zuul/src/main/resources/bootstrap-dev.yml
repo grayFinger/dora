@@ -2,18 +2,20 @@
 server:
   port: 9000
 spring:
+  application:
+    name: dora-zuul
   cloud:
     nacos:
       discovery:
-        server-addr: http://10.254.8.155:8848
+        server-addr: http://127.0.0.1:8848
         service: ${spring.application.name}
       config:
-        server-addr: http://10.254.8.155:8848
+        server-addr: http://127.0.0.1:8848
         file-extension: yaml
   redis:
     database: 5
     host: 127.0.0.1
-    password:
+    password: 123456
     port: 6379
     timeout: 3000
     jedis:
@@ -27,7 +29,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia%2FShanghai
     username: root
     password: root
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
     initialSize: 5
     minIdle: 5
     maxActive: 20
@@ -47,13 +49,33 @@ spring:
 zuul:
   add-host-header: true
   sensitiveHeaders: Cookie,Set-Cookie,Authorization
+  host:
+    max-per-route-connections: 60000
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
   routes:
     admin:
       path: /api/admin/**
       serviceId: dora-admin
       stripPrefix: false
-
-
+    user:
+      path: /api/user/**
+      serviceId: user-service
+      stripPrefix: false
+    common:
+      path: /api/common/**
+      serviceId: common-service
+      stripPrefix: false
 logging:
   level:
     root: info
+
+#security:
+#  oauth2:
+#    resource:
+#      filter-order: 3
+# App Properties
+
+## For test
+#bezkoder.app.jwtExpirationMs= 60000
+#bezkoder.app.jwtRefreshExpirationMs= 120000

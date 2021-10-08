@@ -27,8 +27,58 @@
 
         <javaModelGenerator targetPackage="order" targetProject="generator" />
 
-        <!--定义要导出的表，tableName表示表名，domainObjectName表示实体名-->
+        <!--订单表-->
         <table tableName="tb_order" domainObjectName="Order">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--评价表-->
+        <table tableName="order_appraise" domainObjectName="OrderAppraise">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--售后表-->
+        <table tableName="order_returns" domainObjectName="OrderReturns">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--售后申请表-->
+        <table tableName="order_returns_apply" domainObjectName="OrderReturnsApply">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--商品主题-->
+        <table tableName="pro_category" domainObjectName="ProCategory">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--商品规格sku-->
+        <table tableName="pro_sku" domainObjectName="ProSku">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--商品spu-->
+        <table tableName="pro_spu" domainObjectName="ProSpu">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--规格key表，商品属性扩展-->
+        <table tableName="sku_attribute_key" domainObjectName="SkuAttributeKey">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--sku扩展属性表value-->
+        <table tableName="sku_attribute_value" domainObjectName="SkuAttributeValue">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--交易表-->
+        <table tableName="transaction" domainObjectName="Transaction">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.deng.order" />
+        </table>
+        <!--支付记录表-->
+        <table tableName="transaction_record" domainObjectName="TransactionRecord">
             <property name="comment" value="" />
             <property name="targetPackage" value="com.deng.order" />
         </table>

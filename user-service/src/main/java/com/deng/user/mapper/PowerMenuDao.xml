@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.PowerMenuDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.PowerMenu">
+        <result property="powerId" column="power_id" />
+		<result property="menuId" column="menu_id" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="powerId != null">power_id = #{powerId}, </if>
+			<if test="menuId != null">menu_id = #{menuId}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.powerId != null"> and a.power_id = #{o.powerId}</if>
+			<if test="o.menuId != null"> and a.menu_id = #{o.menuId}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into power_menu
+        (
+            id
+            <if test="powerId != null">,power_id</if>
+			<if test="menuId != null">,menu_id</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="powerId != null">,#{powerId}</if>
+			<if test="menuId != null">,#{menuId}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into power_menu
+        (
+            id, power_id,menu_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.powerId},#{item.menuId}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into power_menu
+        (
+            id, power_id,menu_id
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.powerId},#{item.menuId}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			power_id = values(power_id),
+			menu_id = values(menu_id)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update power_menu
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from power_menu where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from power_menu a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from power_menu where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from power_menu where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from power_menu
+    </select>
+    
+
+</mapper>

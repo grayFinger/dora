@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.TransactionDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.Transaction">
+        <result property="orderSn" column="order_sn" />
+		<result property="userId" column="user_id" />
+		<result property="payState" column="pay_state" />
+		<result property="completionTime" column="completion_time" />
+		<result property="createdAt" column="created_at" jdbcType="TIMESTAMP" />
+		<result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="orderSn != null and orderSn != ''">order_sn = #{orderSn}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>
+			<if test="amount != null">amount = #{amount}, </if>
+			<if test="integral != null">integral = #{integral}, </if>
+			<if test="payState != null">pay_state = #{payState}, </if>
+			<if test="source != null and source != ''">source = #{source}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="completionTime != null">completion_time = #{completionTime}, </if>
+			<if test="note != null and note != ''">note = #{note}, </if>
+			<if test="createdAt != null">created_at = #{createdAt, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedAt != null">updated_at = #{updatedAt, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.orderSn != null and o.orderSn != ''"> and a.order_sn = #{o.orderSn}</if>
+			<if test="o.userId != null"> and a.user_id = #{o.userId}</if>
+			<if test="o.amount != null"> and a.amount = #{o.amount}</if>
+			<if test="o.integral != null"> and a.integral = #{o.integral}</if>
+			<if test="o.payState != null"> and a.pay_state = #{o.payState}</if>
+			<if test="o.source != null and o.source != ''"> and a.source = #{o.source}</if>
+			<if test="o.status != null"> and a.status = #{o.status}</if>
+			<if test="o.completionTime != null"> and a.completion_time = #{o.completionTime}</if>
+			<if test="o.note != null and o.note != ''"> and a.note = #{o.note}</if>
+			<if test="o.createdAt != null"> and a.created_at = #{o.createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedAt != null"> and a.updated_at = #{o.updatedAt, jdbcType=TIMESTAMP}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into transaction
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="orderSn != null and orderSn != ''">,order_sn</if>
+			<if test="userId != null">,user_id</if>
+			<if test="amount != null">,amount</if>
+			<if test="integral != null">,integral</if>
+			<if test="payState != null">,pay_state</if>
+			<if test="source != null and source != ''">,source</if>
+			<if test="status != null">,status</if>
+			<if test="completionTime != null">,completion_time</if>
+			<if test="note != null and note != ''">,note</if>
+			<if test="createdAt != null">,created_at</if>
+			<if test="updatedAt != null">,updated_at</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="orderSn != null and orderSn != ''">,#{orderSn}</if>
+			<if test="userId != null">,#{userId}</if>
+			<if test="amount != null">,#{amount}</if>
+			<if test="integral != null">,#{integral}</if>
+			<if test="payState != null">,#{payState}</if>
+			<if test="source != null and source != ''">,#{source}</if>
+			<if test="status != null">,#{status}</if>
+			<if test="completionTime != null">,#{completionTime}</if>
+			<if test="note != null and note != ''">,#{note}</if>
+			<if test="createdAt != null">,#{createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="updatedAt != null">,#{updatedAt, jdbcType=TIMESTAMP}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into transaction
+        (
+            id, id,order_sn,user_id,amount,integral,pay_state,source,status,completion_time,note,created_at,updated_at
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderSn},#{item.userId},#{item.amount},#{item.integral},#{item.payState},#{item.source},#{item.status},#{item.completionTime},#{item.note},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into transaction
+        (
+            id, id,order_sn,user_id,amount,integral,pay_state,source,status,completion_time,note,created_at,updated_at
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderSn},#{item.userId},#{item.amount},#{item.integral},#{item.payState},#{item.source},#{item.status},#{item.completionTime},#{item.note},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			order_sn = values(order_sn),
+			user_id = values(user_id),
+			amount = values(amount),
+			integral = values(integral),
+			pay_state = values(pay_state),
+			source = values(source),
+			status = values(status),
+			completion_time = values(completion_time),
+			note = values(note),
+			created_at = values(created_at),
+			updated_at = values(updated_at)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update transaction
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from transaction where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from transaction a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from transaction where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from transaction where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from transaction
+    </select>
+    
+
+</mapper>

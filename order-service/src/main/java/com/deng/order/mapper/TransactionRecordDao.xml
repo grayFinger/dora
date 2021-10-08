@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.TransactionRecordDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.TransactionRecord">
+        <result property="orderSn" column="order_sn" />
+		<result property="createdAt" column="created_at" jdbcType="TIMESTAMP" />
+		<result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="orderSn != null and orderSn != ''">order_sn = #{orderSn}, </if>
+			<if test="createdAt != null">created_at = #{createdAt, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedAt != null">updated_at = #{updatedAt, jdbcType=TIMESTAMP}, </if>
+			<if test="events != null">events = #{events}, </if>
+			<if test="result != null">result = #{result}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.orderSn != null and o.orderSn != ''"> and a.order_sn = #{o.orderSn}</if>
+			<if test="o.createdAt != null"> and a.created_at = #{o.createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedAt != null"> and a.updated_at = #{o.updatedAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.events != null"> and a.events = #{o.events}</if>
+			<if test="o.result != null"> and a.result = #{o.result}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into transaction_record
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="orderSn != null and orderSn != ''">,order_sn</if>
+			<if test="createdAt != null">,created_at</if>
+			<if test="updatedAt != null">,updated_at</if>
+			<if test="events != null">,events</if>
+			<if test="result != null">,result</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="orderSn != null and orderSn != ''">,#{orderSn}</if>
+			<if test="createdAt != null">,#{createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="updatedAt != null">,#{updatedAt, jdbcType=TIMESTAMP}</if>
+			<if test="events != null">,#{events}</if>
+			<if test="result != null">,#{result}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into transaction_record
+        (
+            id, id,order_sn,created_at,updated_at,events,result
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderSn},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.events},#{item.result}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into transaction_record
+        (
+            id, id,order_sn,created_at,updated_at,events,result
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderSn},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.events},#{item.result}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			order_sn = values(order_sn),
+			created_at = values(created_at),
+			updated_at = values(updated_at),
+			events = values(events),
+			result = values(result)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update transaction_record
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from transaction_record where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from transaction_record a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from transaction_record where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from transaction_record where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from transaction_record
+    </select>
+    
+
+</mapper>

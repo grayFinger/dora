@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.UserInfoDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.UserInfo">
+        <result property="idCard" column="id_card" />
+		<result property="birthday" column="birthday" jdbcType="TIMESTAMP" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP" />
+		<result property="userType" column="user_type" />
+		<result property="referrerNo" column="referrer_no" />
+		<result property="promoteNo" column="promote_no" />
+    </resultMap>
+	<!--
+            用户权限
+        -->
+	<resultMap id="userPowerMap" type="com.deng.user.bean.UserInfo">
+		<result property="idCard" column="id_card" />
+		<result property="userType" column="user_type" />
+		<result property="referrerNo" column="referrer_no" />
+		<result property="birthday" column="birthday"  jdbcType="TIMESTAMP" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"  />
+		<result property="promoteNo" column="promote_no" />
+<!--		&lt;!&ndash;菜单&ndash;&gt;-->
+<!--		<collection property="menus" ofType="com.deng.user.bean.Menu">-->
+<!--			<id property="id" column="mId" />-->
+<!--			<result  property="parentId" column="tmPid"/>-->
+<!--			<result  property="menuUrl" column="menu_url" />-->
+<!--		</collection>-->
+<!--		&lt;!&ndash;页面元素&ndash;&gt;-->
+<!--		<collection property="pageElements" ofType="com.deng.user.bean.PageElement">-->
+<!--			<id property="id" column="peId" />-->
+<!--		</collection>-->
+<!--		&lt;!&ndash;功能操作&ndash;&gt;-->
+<!--		<collection property="operations" ofType="com.deng.user.bean.Operation">-->
+<!--			<id property="id" column="opId" />-->
+<!--			<result  property="operationNo" column="operation_no"/>-->
+<!--			<result  property="interceptUrl" column="intercept_url"/>-->
+<!--			<result  property="parentId" column="opPid" />-->
+<!--		</collection>-->
+	</resultMap>
+
+	<sql id="userAuthSelectColumn">
+		us.id_card,us.phone,us.username,us.nickname,us.passwd,us.create_time,us.referrer_no,us.promote_no,us.address
+	</sql>
+	<!--菜单资源查询-->
+	<sql id="selectMenu">
+		(select tm.id mId, p.role_id mrId, tm.parent_id tmPid,tm.menu_url from tb_menu tm
+		left join power_menu m on m.menu_id = tm.id
+		left join role_power p on m.power_id = p.power_id) _menu
+	</sql>
+	<!--页面元素资源查询-->
+	<sql id="selectPageElement">
+		(select p.role_id mrId, pe.id peId from tb_page_element pe
+		left join power_page_element e on e.page_element_id = pe.id
+		left join role_power p on e.power_id = p.power_id) _pageel
+	</sql>
+	<!--功能资源查询-->
+	<sql id="selectOperation">
+		(select p.role_id oprId, op.parent_id opPid, op.id opId, op.intercept_url, op.operation_no from tb_operation op
+		left join power_operation po on op.id = po.operation_id
+		left join role_power p on po.power_id = p.power_id) _op
+	</sql>
+
+	<sql id="userLoginConditionSql">
+		where us.status !=1
+		<if test="userInfo.username != null and userInfo.username != ''">
+			and us.username = #{userInfo.username}
+		</if>
+		<if test="userInfo.account != null and userInfo.account != ''">
+			and us.account = #{userInfo.account}
+		</if>
+		<if test="userInfo.phone != null and userInfo.phone != ''">
+			and us.phone = #{userInfo.phone}
+		</if>
+		<if test='userInfo.mail != null and userInfo.mail!=""'>
+			and us.mail=#{userInfo.mail}
+		</if>
+	</sql>
+
+
+
+
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="status != null">status = #{status}, </if>
+			<if test="username != null and username != ''">username = #{username}, </if>
+			<if test="nickname != null and nickname != ''">nickname = #{nickname}, </if>
+			<if test="account != null and account != ''">account = #{account}, </if>
+			<if test="passwd != null and passwd != ''">passwd = #{passwd}, </if>
+			<if test="phone != null and phone != ''">phone = #{phone}, </if>
+			<if test="idCard != null and idCard != ''">id_card = #{idCard}, </if>
+			<if test="gender != null">gender = #{gender}, </if>
+			<if test="birthday != null">birthday = #{birthday, jdbcType=TIMESTAMP}, </if>
+			<if test="mail != null and mail != ''">mail = #{mail}, </if>
+			<if test="avatar != null and avatar != ''">avatar = #{avatar}, </if>
+			<if test="address != null and address != ''">address = #{address}, </if>
+			<if test="createTime != null">create_time = #{createTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updateTime != null">update_time = #{updateTime, jdbcType=TIMESTAMP}, </if>
+			<if test="userType != null">user_type = #{userType}, </if>
+			<if test="referrerNo != null and referrerNo != ''">referrer_no = #{referrerNo}, </if>
+			<if test="promoteNo != null and promoteNo != ''">promote_no = #{promoteNo}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.status != null"> and a.status = #{o.status}</if>
+			<if test="o.username != null and o.username != ''"> and a.username = #{o.username}</if>
+			<if test="o.nickname != null and o.nickname != ''"> and a.nickname = #{o.nickname}</if>
+			<if test="o.account != null and o.account != ''"> and a.account = #{o.account}</if>
+			<if test="o.passwd != null and o.passwd != ''"> and a.passwd = #{o.passwd}</if>
+			<if test="o.phone != null and o.phone != ''"> and a.phone = #{o.phone}</if>
+			<if test="o.idCard != null and o.idCard != ''"> and a.id_card = #{o.idCard}</if>
+			<if test="o.gender != null"> and a.gender = #{o.gender}</if>
+			<if test="o.birthday != null"> and a.birthday = #{o.birthday, jdbcType=TIMESTAMP}</if>
+			<if test="o.mail != null and o.mail != ''"> and a.mail = #{o.mail}</if>
+			<if test="o.avatar != null and o.avatar != ''"> and a.avatar = #{o.avatar}</if>
+			<if test="o.address != null and o.address != ''"> and a.address = #{o.address}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updateTime != null"> and a.update_time = #{o.updateTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.userType != null"> and a.user_type = #{o.userType}</if>
+			<if test="o.referrerNo != null and o.referrerNo != ''"> and a.referrer_no = #{o.referrerNo}</if>
+			<if test="o.promoteNo != null and o.promoteNo != ''"> and a.promote_no = #{o.promoteNo}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into tb_user
+        (
+            id
+            <if test="status != null">,status</if>
+			<if test="username != null and username != ''">,username</if>
+			<if test="nickname != null and nickname != ''">,nickname</if>
+			<if test="account != null and account != ''">,account</if>
+			<if test="passwd != null and passwd != ''">,passwd</if>
+			<if test="phone != null and phone != ''">,phone</if>
+			<if test="idCard != null and idCard != ''">,id_card</if>
+			<if test="gender != null">,gender</if>
+			<if test="birthday != null">,birthday</if>
+			<if test="mail != null and mail != ''">,mail</if>
+			<if test="avatar != null and avatar != ''">,avatar</if>
+			<if test="address != null and address != ''">,address</if>
+			<if test="createTime != null">,create_time</if>
+			<if test="updateTime != null">,update_time</if>
+			<if test="userType != null">,user_type</if>
+			<if test="referrerNo != null and referrerNo != ''">,referrer_no</if>
+			<if test="promoteNo != null and promoteNo != ''">,promote_no</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="status != null">,#{status}</if>
+			<if test="username != null and username != ''">,#{username}</if>
+			<if test="nickname != null and nickname != ''">,#{nickname}</if>
+			<if test="account != null and account != ''">,#{account}</if>
+			<if test="passwd != null and passwd != ''">,#{passwd}</if>
+			<if test="phone != null and phone != ''">,#{phone}</if>
+			<if test="idCard != null and idCard != ''">,#{idCard}</if>
+			<if test="gender != null">,#{gender}</if>
+			<if test="birthday != null">,#{birthday, jdbcType=TIMESTAMP}</if>
+			<if test="mail != null and mail != ''">,#{mail}</if>
+			<if test="avatar != null and avatar != ''">,#{avatar}</if>
+			<if test="address != null and address != ''">,#{address}</if>
+			<if test="createTime != null">,#{createTime, jdbcType=TIMESTAMP}</if>
+			<if test="updateTime != null">,#{updateTime, jdbcType=TIMESTAMP}</if>
+			<if test="userType != null">,#{userType}</if>
+			<if test="referrerNo != null and referrerNo != ''">,#{referrerNo}</if>
+			<if test="promoteNo != null and promoteNo != ''">,#{promoteNo}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_user
+        (
+            id, status,username,nickname,account,passwd,phone,id_card,gender,birthday,mail,avatar,address,create_time,update_time,user_type,referrer_no,promote_no
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.status},#{item.username},#{item.nickname},#{item.account},#{item.passwd},#{item.phone},#{item.idCard},#{item.gender},#{item.birthday, jdbcType=TIMESTAMP},#{item.mail},#{item.avatar},#{item.address},#{item.createTime, jdbcType=TIMESTAMP},#{item.updateTime, jdbcType=TIMESTAMP},#{item.userType},#{item.referrerNo},#{item.promoteNo}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_user
+        (
+            id, status,username,nickname,account,passwd,phone,id_card,gender,birthday,mail,avatar,address,create_time,update_time,user_type,referrer_no,promote_no
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.status},#{item.username},#{item.nickname},#{item.account},#{item.passwd},#{item.phone},#{item.idCard},#{item.gender},#{item.birthday, jdbcType=TIMESTAMP},#{item.mail},#{item.avatar},#{item.address},#{item.createTime, jdbcType=TIMESTAMP},#{item.updateTime, jdbcType=TIMESTAMP},#{item.userType},#{item.referrerNo},#{item.promoteNo}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			status = values(status),
+			username = values(username),
+			nickname = values(nickname),
+			account = values(account),
+			passwd = values(passwd),
+			phone = values(phone),
+			id_card = values(id_card),
+			gender = values(gender),
+			birthday = values(birthday),
+			mail = values(mail),
+			avatar = values(avatar),
+			address = values(address),
+			create_time = values(create_time),
+			update_time = values(update_time),
+			user_type = values(user_type),
+			referrer_no = values(referrer_no),
+			promote_no = values(promote_no)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update tb_user
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from tb_user where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from tb_user a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from tb_user where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from tb_user where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from tb_user
+    </select>
+
+	<select id="selectUserPowers" resultMap="userPowerMap" parameterType="object">
+		SELECT
+		*
+		FROM
+		tb_user us
+		LEFT JOIN (
+		SELECT
+		_roleu.uId,
+		_roleu.rId
+		FROM
+		(
+		SELECT
+		r.id rId,
+		u.user_id uId
+		FROM
+		tb_role r
+		LEFT JOIN group_role gr ON r.id = gr.role_id
+		LEFT JOIN group_user u ON gr.group_id = u.group_id UNION
+		SELECT
+		r.id rId,
+		ur.user_id uId
+		FROM
+		tb_role r
+		LEFT JOIN user_role ur ON r.id = ur.role_id
+		) _roleu
+		LEFT JOIN <include refid="selectMenu" /> ON _roleu.rId = _menu.mrId
+		LEFT JOIN <include refid="selectPageElement" /> ON _roleu.rId = _pageel.mrId
+		LEFT JOIN <include refid="selectOperation" /> ON _roleu.rId = _op.oprId
+		) _pow ON us.id = _pow.uId
+		<include refid="userLoginConditionSql" />
+	</select>
+
+</mapper>

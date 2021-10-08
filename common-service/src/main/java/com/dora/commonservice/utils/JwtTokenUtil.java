@@ -2,18 +2,16 @@ package com.dora.commonservice.utils;
 
 import com.dora.commonservice.constants.ResponseStatus;
 import com.dora.commonservice.entity.TokenModel;
+import com.dora.commonservice.entity.UserAuthorityVO;
 import com.dora.commonservice.exception.BusinessException;
-import com.dora.commonservice.service.UserInfo;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,42 +28,48 @@ import java.util.Map;
  */
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
-    private static String JWT_SECRET = null;
-    private static Long expiration = null;
+    private static String jwtSecret = null;
+    private static int jwtAccessExpirationMs = 0;
+    private static int jwtRefreshTokenExpirationMs = 0;
 
-    public static void initConfig(String secret, long exp){
-        if (JwtTokenUtil.JWT_SECRET == null){
+
+    public static void initConfig(String jwtSecret, int jwtAccessExpirationMs, int jwtRefreshTokenExpirationMs){
+        if (JwtTokenUtil.jwtSecret == null){
             synchronized (JwtTokenUtil.class){
-                if (JwtTokenUtil.JWT_SECRET == null){
-                    JwtTokenUtil.JWT_SECRET = secret;
-                    JwtTokenUtil.expiration = exp;
+                if (JwtTokenUtil.jwtSecret == null){
+                    JwtTokenUtil.jwtAccessExpirationMs = jwtAccessExpirationMs;
+                    JwtTokenUtil.jwtSecret = jwtSecret;
+                    JwtTokenUtil.jwtRefreshTokenExpirationMs = jwtRefreshTokenExpirationMs;
                 }
             }
         }
     }
+
 
     /**
      * 生成用户token
      * @param user
      * @return
      */
-    public static String generateToken(UserInfo user){
+    public static String generateToken(UserAuthorityVO user,String tokenType){
+        int expTime = "access_token".equals(tokenType)?jwtAccessExpirationMs:jwtRefreshTokenExpirationMs;
         if (user == null)
             throw new BusinessException(ResponseStatus.USER_NOT_FOUND);
         Map<String, Object> claims = new HashMap<>(4);
         claims.put("id", user.getId());
-        claims.put("exp", generateExpirationDate().getTime());
-        return generateToken(claims);
+        claims.put("exp", generateExpirationDate(expTime).getTime());
+        return generateToken(claims,tokenType);
     }
 
     /**
      * 根据负责生成JWT的token
      */
-    private static String generateToken(Map<String, Object> claims) {
+    private static String generateToken(Map<String, Object> claims, String tokenType) {
+        int expTime = "access_token".equals(tokenType)?jwtAccessExpirationMs:jwtRefreshTokenExpirationMs;
         return Jwts.builder()
                 .setClaims(claims)
                 .setId(CommonUtils.getUUIDStr())
-                .setExpiration(generateExpirationDate())
+                .setExpiration(generateExpirationDate(expTime))
                 .signWith(SignatureAlgorithm.HS512, generalKey())
                 .compact();
     }
@@ -73,7 +77,7 @@ public class JwtTokenUtil {
     // 由字符串生成加密key
     private static SecretKey generalKey() {
         // 本地的密码解码
-        byte[] encodedKey = JWT_SECRET.getBytes(); // Base64.decodeBase64(Base64.encodeBase64String(JWT_SECRET.getBytes()));
+        byte[] encodedKey = jwtSecret.getBytes(); // Base64.decodeBase64(Base64.encodeBase64String(JWT_SECRET.getBytes()));
         // 根据给定的字节数组使用AES加密算法构造一个密钥
         SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
         return key;
@@ -98,8 +102,8 @@ public class JwtTokenUtil {
     /**
      * 生成token的过期时间
      */
-    private static Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 1000);
+    private static Date generateExpirationDate(int expTime) {
+        return new Date(System.currentTimeMillis() + expTime * 1000);
     }
 
     /**
@@ -128,15 +132,16 @@ public class JwtTokenUtil {
         Claims claims = getClaimsFromToken(token);
         if (claims == null)
             return null;
-        UserInfo user = () -> (Serializable) claims.get("id");
+        UserAuthorityVO user = new UserAuthorityVO();
+        user.setId((Long) claims.get("id"));
         TokenModel tokenModel = new TokenModel();
         tokenModel.setUser(user);
-        // 检查是否token是否在15分钟后过期，如果是则生成新的token
-        Date expiredDate = claims.getExpiration();
-        Date now = new Date(System.currentTimeMillis() + 15 * 1000 * 60);
-        if (now.after(expiredDate)){
-            tokenModel.setToken(JwtTokenUtil.generateToken(user));
-        }
+//        // 检查是否token是否在15分钟后过期，如果是则生成新的token
+//        Date expiredDate = claims.getExpiration();
+//        Date now = new Date(System.currentTimeMillis() + 15 * 1000 * 60);
+//        if (now.after(expiredDate)){
+//            tokenModel.setToken(JwtTokenUtil.generateToken(user));
+//        }
         return tokenModel;
     }
 

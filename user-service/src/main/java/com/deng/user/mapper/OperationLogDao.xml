@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.OperationLogDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.OperationLog">
+        <result property="operationId" column="operation_id" />
+		<result property="operationContent" column="operation_content" />
+		<result property="userId" column="user_id" />
+		<result property="createTime" column="create_time" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="operationId != null">operation_id = #{operationId}, </if>
+			<if test="operationContent != null and operationContent != ''">operation_content = #{operationContent}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>
+			<if test="createTime != null">create_time = #{createTime}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.operationId != null"> and a.operation_id = #{o.operationId}</if>
+			<if test="o.operationContent != null and o.operationContent != ''"> and a.operation_content = #{o.operationContent}</if>
+			<if test="o.userId != null"> and a.user_id = #{o.userId}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into tb_operation_log
+        (
+            id
+            <if test="operationId != null">,operation_id</if>
+			<if test="operationContent != null and operationContent != ''">,operation_content</if>
+			<if test="userId != null">,user_id</if>
+			<if test="createTime != null">,create_time</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="operationId != null">,#{operationId}</if>
+			<if test="operationContent != null and operationContent != ''">,#{operationContent}</if>
+			<if test="userId != null">,#{userId}</if>
+			<if test="createTime != null">,#{createTime}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_operation_log
+        (
+            id, operation_id,operation_content,user_id,create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.operationId},#{item.operationContent},#{item.userId},#{item.createTime}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_operation_log
+        (
+            id, operation_id,operation_content,user_id,create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.operationId},#{item.operationContent},#{item.userId},#{item.createTime}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			operation_id = values(operation_id),
+			operation_content = values(operation_content),
+			user_id = values(user_id),
+			create_time = values(create_time)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update tb_operation_log
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from tb_operation_log where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from tb_operation_log a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from tb_operation_log where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from tb_operation_log where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from tb_operation_log
+    </select>
+    
+
+</mapper>

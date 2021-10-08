@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.ProCategoryDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.ProCategory">
+        <result property="parentId" column="parent_id" />
+		<result property="cName" column="c_name" />
+		<result property="cLevel" column="c_level" />
+		<result property="cIcon" column="c_icon" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="isTrue" column="is_true" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="parentId != null">parent_id = #{parentId}, </if>
+			<if test="cName != null and cName != ''">c_name = #{cName}, </if>
+			<if test="cLevel != null">c_level = #{cLevel}, </if>
+			<if test="cIcon != null and cIcon != ''">c_icon = #{cIcon}, </if>
+			<if test="createTime != null">create_time = #{createTime, jdbcType=TIMESTAMP}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>
+			<if test="userName != null and userName != ''">user_name = #{userName}, </if>
+			<if test="isTrue != null">is_true = #{isTrue}, </if>
+			<if test="description != null">description = #{description}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.parentId != null"> and a.parent_id = #{o.parentId}</if>
+			<if test="o.cName != null and o.cName != ''"> and a.c_name = #{o.cName}</if>
+			<if test="o.cLevel != null"> and a.c_level = #{o.cLevel}</if>
+			<if test="o.cIcon != null and o.cIcon != ''"> and a.c_icon = #{o.cIcon}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.userId != null"> and a.user_id = #{o.userId}</if>
+			<if test="o.userName != null and o.userName != ''"> and a.user_name = #{o.userName}</if>
+			<if test="o.isTrue != null"> and a.is_true = #{o.isTrue}</if>
+			<if test="o.description != null"> and a.description = #{o.description}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into pro_category
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="parentId != null">,parent_id</if>
+			<if test="cName != null and cName != ''">,c_name</if>
+			<if test="cLevel != null">,c_level</if>
+			<if test="cIcon != null and cIcon != ''">,c_icon</if>
+			<if test="createTime != null">,create_time</if>
+			<if test="userId != null">,user_id</if>
+			<if test="userName != null and userName != ''">,user_name</if>
+			<if test="isTrue != null">,is_true</if>
+			<if test="description != null">,description</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="parentId != null">,#{parentId}</if>
+			<if test="cName != null and cName != ''">,#{cName}</if>
+			<if test="cLevel != null">,#{cLevel}</if>
+			<if test="cIcon != null and cIcon != ''">,#{cIcon}</if>
+			<if test="createTime != null">,#{createTime, jdbcType=TIMESTAMP}</if>
+			<if test="userId != null">,#{userId}</if>
+			<if test="userName != null and userName != ''">,#{userName}</if>
+			<if test="isTrue != null">,#{isTrue}</if>
+			<if test="description != null">,#{description}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into pro_category
+        (
+            id, id,parent_id,c_name,c_level,c_icon,create_time,user_id,user_name,is_true,description
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.parentId},#{item.cName},#{item.cLevel},#{item.cIcon},#{item.createTime, jdbcType=TIMESTAMP},#{item.userId},#{item.userName},#{item.isTrue},#{item.description}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into pro_category
+        (
+            id, id,parent_id,c_name,c_level,c_icon,create_time,user_id,user_name,is_true,description
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.parentId},#{item.cName},#{item.cLevel},#{item.cIcon},#{item.createTime, jdbcType=TIMESTAMP},#{item.userId},#{item.userName},#{item.isTrue},#{item.description}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			parent_id = values(parent_id),
+			c_name = values(c_name),
+			c_level = values(c_level),
+			c_icon = values(c_icon),
+			create_time = values(create_time),
+			user_id = values(user_id),
+			user_name = values(user_name),
+			is_true = values(is_true),
+			description = values(description)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update pro_category
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from pro_category where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from pro_category a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from pro_category where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from pro_category where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from pro_category
+    </select>
+    
+
+</mapper>

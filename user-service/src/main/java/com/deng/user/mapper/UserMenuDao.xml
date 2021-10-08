@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.UserMenuDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.Menu">
+        <result property="parentId" column="parent_id" />
+		<result property="menuName" column="menu_name" />
+		<result property="menuUrl" column="menu_url" />
+		<result property="menuIcon" column="menu_icon" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="parentId != null">parent_id = #{parentId}, </if>
+			<if test="menuName != null and menuName != ''">menu_name = #{menuName}, </if>
+			<if test="menuUrl != null and menuUrl != ''">menu_url = #{menuUrl}, </if>
+			<if test="menuIcon != null and menuIcon != ''">menu_icon = #{menuIcon}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="createTime != null">create_time = #{createTime}, </if>
+			<if test="updateTime != null">update_time = #{updateTime}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.parentId != null"> and a.parent_id = #{o.parentId}</if>
+			<if test="o.menuName != null and o.menuName != ''"> and a.menu_name = #{o.menuName}</if>
+			<if test="o.menuUrl != null and o.menuUrl != ''"> and a.menu_url = #{o.menuUrl}</if>
+			<if test="o.menuIcon != null and o.menuIcon != ''"> and a.menu_icon = #{o.menuIcon}</if>
+			<if test="o.status != null"> and a.status = #{o.status}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime}</if>
+			<if test="o.updateTime != null"> and a.update_time = #{o.updateTime}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into tb_menu
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="parentId != null">,parent_id</if>
+			<if test="menuName != null and menuName != ''">,menu_name</if>
+			<if test="menuUrl != null and menuUrl != ''">,menu_url</if>
+			<if test="menuIcon != null and menuIcon != ''">,menu_icon</if>
+			<if test="status != null">,status</if>
+			<if test="createTime != null">,create_time</if>
+			<if test="updateTime != null">,update_time</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="parentId != null">,#{parentId}</if>
+			<if test="menuName != null and menuName != ''">,#{menuName}</if>
+			<if test="menuUrl != null and menuUrl != ''">,#{menuUrl}</if>
+			<if test="menuIcon != null and menuIcon != ''">,#{menuIcon}</if>
+			<if test="status != null">,#{status}</if>
+			<if test="createTime != null">,#{createTime}</if>
+			<if test="updateTime != null">,#{updateTime}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_menu
+        (
+            id, id,parent_id,menu_name,menu_url,menu_icon,status,create_time,update_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.parentId},#{item.menuName},#{item.menuUrl},#{item.menuIcon},#{item.status},#{item.createTime},#{item.updateTime}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_menu
+        (
+            id, id,parent_id,menu_name,menu_url,menu_icon,status,create_time,update_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.parentId},#{item.menuName},#{item.menuUrl},#{item.menuIcon},#{item.status},#{item.createTime},#{item.updateTime}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			parent_id = values(parent_id),
+			menu_name = values(menu_name),
+			menu_url = values(menu_url),
+			menu_icon = values(menu_icon),
+			status = values(status),
+			create_time = values(create_time),
+			update_time = values(update_time)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update tb_menu
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from tb_menu where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from tb_menu a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from tb_menu where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from tb_menu where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from tb_menu
+    </select>
+    
+
+</mapper>

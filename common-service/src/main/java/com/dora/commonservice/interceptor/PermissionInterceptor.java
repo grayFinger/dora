@@ -5,8 +5,9 @@ import com.dora.commonservice.annotation.LoginRequired;
 import com.dora.commonservice.constants.ResponseStatus;
 import com.dora.commonservice.constants.SysConstants;
 import com.dora.commonservice.entity.TokenModel;
+import com.dora.commonservice.entity.UserAuthorityVO;
+import com.dora.commonservice.entity.UserInfoModel;
 import com.dora.commonservice.exception.BusinessException;
-import com.dora.commonservice.service.UserInfo;
 import com.dora.commonservice.utils.JwtTokenUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -53,7 +54,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private UserInfo checkToken(String token, HttpServletResponse response){
+    private UserAuthorityVO checkToken(String token, HttpServletResponse response){
         if (StringUtils.isEmpty(token))
             throw new BusinessException(ResponseStatus.NO_PERMISSION);
         TokenModel tokenModel = JwtTokenUtil.token2tokenModal(token);

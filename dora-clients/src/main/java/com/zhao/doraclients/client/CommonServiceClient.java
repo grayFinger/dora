@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "common-service")
 public interface CommonServiceClient {
 
-//    @GetMapping("/api/auth/test")
-//    BaseResponse<String> test();
+    @GetMapping("/api/auth/test")
+    String test();
 
 }

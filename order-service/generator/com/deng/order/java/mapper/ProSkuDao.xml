@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.ProSkuDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.ProSku">
+        <result property="skuName" column="sku_name" />
+		<result property="spuId" column="spu_id" />
+		<result property="spuStock" column="spu_stock" />
+		<result property="spuPrice" column="spu_price" />
+		<result property="spuSource" column="spu_source" />
+		<result property="spuSales" column="spu_sales" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="lateUpdateTime" column="late_update_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="skuName != null and skuName != ''">sku_name = #{skuName}, </if>
+			<if test="spuId != null">spu_id = #{spuId}, </if>
+			<if test="spuStock != null">spu_stock = #{spuStock}, </if>
+			<if test="spuPrice != null">spu_price = #{spuPrice}, </if>
+			<if test="spuSource != null and spuSource != ''">spu_source = #{spuSource}, </if>
+			<if test="spuSales != null">spu_sales = #{spuSales}, </if>
+			<if test="createTime != null">create_time = #{createTime, jdbcType=TIMESTAMP}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>
+			<if test="userName != null and userName != ''">user_name = #{userName}, </if>
+			<if test="lateUpdateTime != null">late_update_time = #{lateUpdateTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.skuName != null and o.skuName != ''"> and a.sku_name = #{o.skuName}</if>
+			<if test="o.spuId != null"> and a.spu_id = #{o.spuId}</if>
+			<if test="o.spuStock != null"> and a.spu_stock = #{o.spuStock}</if>
+			<if test="o.spuPrice != null"> and a.spu_price = #{o.spuPrice}</if>
+			<if test="o.spuSource != null and o.spuSource != ''"> and a.spu_source = #{o.spuSource}</if>
+			<if test="o.spuSales != null"> and a.spu_sales = #{o.spuSales}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.userId != null"> and a.user_id = #{o.userId}</if>
+			<if test="o.userName != null and o.userName != ''"> and a.user_name = #{o.userName}</if>
+			<if test="o.lateUpdateTime != null"> and a.late_update_time = #{o.lateUpdateTime, jdbcType=TIMESTAMP}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into pro_sku
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="skuName != null and skuName != ''">,sku_name</if>
+			<if test="spuId != null">,spu_id</if>
+			<if test="spuStock != null">,spu_stock</if>
+			<if test="spuPrice != null">,spu_price</if>
+			<if test="spuSource != null and spuSource != ''">,spu_source</if>
+			<if test="spuSales != null">,spu_sales</if>
+			<if test="createTime != null">,create_time</if>
+			<if test="userId != null">,user_id</if>
+			<if test="userName != null and userName != ''">,user_name</if>
+			<if test="lateUpdateTime != null">,late_update_time</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="skuName != null and skuName != ''">,#{skuName}</if>
+			<if test="spuId != null">,#{spuId}</if>
+			<if test="spuStock != null">,#{spuStock}</if>
+			<if test="spuPrice != null">,#{spuPrice}</if>
+			<if test="spuSource != null and spuSource != ''">,#{spuSource}</if>
+			<if test="spuSales != null">,#{spuSales}</if>
+			<if test="createTime != null">,#{createTime, jdbcType=TIMESTAMP}</if>
+			<if test="userId != null">,#{userId}</if>
+			<if test="userName != null and userName != ''">,#{userName}</if>
+			<if test="lateUpdateTime != null">,#{lateUpdateTime, jdbcType=TIMESTAMP}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into pro_sku
+        (
+            id, id,sku_name,spu_id,spu_stock,spu_price,spu_source,spu_sales,create_time,user_id,user_name,late_update_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.skuName},#{item.spuId},#{item.spuStock},#{item.spuPrice},#{item.spuSource},#{item.spuSales},#{item.createTime, jdbcType=TIMESTAMP},#{item.userId},#{item.userName},#{item.lateUpdateTime, jdbcType=TIMESTAMP}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into pro_sku
+        (
+            id, id,sku_name,spu_id,spu_stock,spu_price,spu_source,spu_sales,create_time,user_id,user_name,late_update_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.skuName},#{item.spuId},#{item.spuStock},#{item.spuPrice},#{item.spuSource},#{item.spuSales},#{item.createTime, jdbcType=TIMESTAMP},#{item.userId},#{item.userName},#{item.lateUpdateTime, jdbcType=TIMESTAMP}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			sku_name = values(sku_name),
+			spu_id = values(spu_id),
+			spu_stock = values(spu_stock),
+			spu_price = values(spu_price),
+			spu_source = values(spu_source),
+			spu_sales = values(spu_sales),
+			create_time = values(create_time),
+			user_id = values(user_id),
+			user_name = values(user_name),
+			late_update_time = values(late_update_time)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update pro_sku
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from pro_sku where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from pro_sku a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from pro_sku where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from pro_sku where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from pro_sku
+    </select>
+    
+
+</mapper>

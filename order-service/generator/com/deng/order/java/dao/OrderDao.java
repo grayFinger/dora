@@ -6,7 +6,7 @@ import com.deng.order.bean.Order;
 /**
  * 数据库操作
  * @author conta
- * @create 2021-09-28 00:01:00
+ * @create 2021-09-28 15:56:35
  */
 public interface OrderDao extends BaseDao<Order> {
 

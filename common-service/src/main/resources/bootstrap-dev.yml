@@ -2,6 +2,8 @@
 server:
   port: 8002
 spring:
+  application:
+    name: common-service
   cloud:
     nacos:
       discovery:
@@ -10,6 +12,18 @@ spring:
       config:
         server-addr: http://127.0.0.1:8848
         file-extension: yaml
+  redis:
+    database: 5
+    host: 127.0.0.1
+    password: 123456
+    port: 6379
+    timeout: 3000
+    jedis:
+      pool:
+        max-idle: 10
+        min-idle: 2
+        max-active: 100
+        max-wait: 3000
   jackson:
     serialization:
       write-dates-as-timestamps: true
@@ -21,7 +35,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia%2FShanghai
     username: root
     password: root
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
     initialSize: 5
     minIdle: 5
     maxActive: 20
@@ -37,19 +51,8 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-  redis:
-    database: 5
-    host: 127.0.0.1
-    password:
-    port: 6379
-    timeout: 3000
-    jedis:
-      pool:
-        max-idle: 10
-        min-idle: 2
-        max-active: 100
-        max-wait: 3000
-security: true
+
+security: false
 feign:
   httpclient:
     enabled: false
@@ -58,3 +61,9 @@ feign:
 logging:
   level:
     root: info
+
+bezkoder:
+  app:
+    jwtSecret: bezKoderSecretKey
+bezkoder.app.jwtExpirationMs: 3600000
+bezkoder.app.jwtRefreshExpirationMs: 86400000

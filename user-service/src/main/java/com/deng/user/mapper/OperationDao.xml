@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.user.dao.OperationDao">
+
+    <resultMap id="resultMap" type="com.deng.user.bean.Operation">
+        <result property="operationName" column="operation_name" />
+		<result property="operationNo" column="operation_no" />
+		<result property="interceptUrl" column="intercept_url" />
+		<result property="parentId" column="parent_id" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="operationName != null and operationName != ''">operation_name = #{operationName}, </if>
+			<if test="operationNo != null and operationNo != ''">operation_no = #{operationNo}, </if>
+			<if test="interceptUrl != null and interceptUrl != ''">intercept_url = #{interceptUrl}, </if>
+			<if test="parentId != null">parent_id = #{parentId}, </if>
+			<if test="createTime != null">create_time = #{createTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.operationName != null and o.operationName != ''"> and a.operation_name = #{o.operationName}</if>
+			<if test="o.operationNo != null and o.operationNo != ''"> and a.operation_no = #{o.operationNo}</if>
+			<if test="o.interceptUrl != null and o.interceptUrl != ''"> and a.intercept_url = #{o.interceptUrl}</if>
+			<if test="o.parentId != null"> and a.parent_id = #{o.parentId}</if>
+			<if test="o.createTime != null"> and a.create_time = #{o.createTime, jdbcType=TIMESTAMP}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into tb_operation
+        (
+            id
+            <if test="operationName != null and operationName != ''">,operation_name</if>
+			<if test="operationNo != null and operationNo != ''">,operation_no</if>
+			<if test="interceptUrl != null and interceptUrl != ''">,intercept_url</if>
+			<if test="parentId != null">,parent_id</if>
+			<if test="createTime != null">,create_time</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="operationName != null and operationName != ''">,#{operationName}</if>
+			<if test="operationNo != null and operationNo != ''">,#{operationNo}</if>
+			<if test="interceptUrl != null and interceptUrl != ''">,#{interceptUrl}</if>
+			<if test="parentId != null">,#{parentId}</if>
+			<if test="createTime != null">,#{createTime, jdbcType=TIMESTAMP}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_operation
+        (
+            id, operation_name,operation_no,intercept_url,parent_id,create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.operationName},#{item.operationNo},#{item.interceptUrl},#{item.parentId},#{item.createTime, jdbcType=TIMESTAMP}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into tb_operation
+        (
+            id, operation_name,operation_no,intercept_url,parent_id,create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.operationName},#{item.operationNo},#{item.interceptUrl},#{item.parentId},#{item.createTime, jdbcType=TIMESTAMP}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			operation_name = values(operation_name),
+			operation_no = values(operation_no),
+			intercept_url = values(intercept_url),
+			parent_id = values(parent_id),
+			create_time = values(create_time)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update tb_operation
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from tb_operation where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from tb_operation a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from tb_operation where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from tb_operation where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from tb_operation
+    </select>
+    
+
+</mapper>

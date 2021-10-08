@@ -1,7 +1,9 @@
 package com.zhao.doraadmin.controller;
 
 
+import com.dora.commonservice.annotation.CommonPath;
 import com.dora.commonservice.annotation.LoginRequired;
+import com.dora.commonservice.utils.CommonUtils;
 import com.zhao.doraclients.client.CommonServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,16 +30,16 @@ public class AdminApi {
     @Autowired
     private CommonServiceClient commonServiceClient;
 
-//    @GetMapping
-//    public BaseResponse<String> test(){
-//        return BaseResponse.SUCCESS();
-//    }
-//
-//    @CommonPath
-//    @GetMapping("/ip")
-//    public BaseResponse<String> getIp(HttpServletRequest request){
-//        logger.info(commonServiceClient.test().toString());
-//        return BaseResponse.SUCCESS(CommonUtils.getIpAddr(request));
-//    }
+    @GetMapping
+    public String test(){
+        return "1";
+    }
+
+    @CommonPath
+    @GetMapping("/ip")
+    public String getIp(HttpServletRequest request){
+        logger.info(commonServiceClient.test().toString());
+        return CommonUtils.getIpAddr(request);
+    }
 
 }

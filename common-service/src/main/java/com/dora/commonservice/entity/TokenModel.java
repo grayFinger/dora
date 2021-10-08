@@ -1,30 +1,37 @@
 package com.dora.commonservice.entity;
 
-import com.dora.commonservice.service.UserInfo;
-
 import java.io.Serializable;
+import java.time.Instant;
 
 public class TokenModel implements Serializable {
 
     private static final long serialVersionUID = -2126466461380912711L;
+    private UserAuthorityVO user;
     private String token;
-    private UserInfo user;
+    private String refreshToken;
 
-    public UserInfo getUser() {
+    public UserAuthorityVO getUser() {
         return user;
     }
 
-    public TokenModel setUser(UserInfo user) {
+    public void setUser(UserAuthorityVO user) {
         this.user = user;
-        return this;
     }
 
     public String getToken() {
         return token;
     }
 
-    public TokenModel setToken(String token) {
+    public void setToken(String token) {
         this.token = token;
-        return this;
     }
+
+    public String getRefreToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }

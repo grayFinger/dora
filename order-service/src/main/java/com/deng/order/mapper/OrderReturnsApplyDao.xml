@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.order.dao.OrderReturnsApplyDao">
+
+    <resultMap id="resultMap" type="com.deng.order.bean.OrderReturnsApply">
+        <result property="orderNo" column="order_no" />
+		<result property="orderDetailId" column="order_detail_id" />
+		<result property="returnNo" column="return_no" />
+		<result property="userId" column="user_id" />
+		<result property="productStatus" column="product_status" />
+		<result property="auditTime" column="audit_time" />
+		<result property="auditWhy" column="audit_why" />
+		<result property="createdAt" column="created_at" jdbcType="TIMESTAMP" />
+		<result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="updateSql">
+        <set>
+            <if test="id != null">id = #{id}, </if>
+            <if test="id != null">id = #{id}, </if>
+			<if test="orderNo != null and orderNo != ''">order_no = #{orderNo}, </if>
+			<if test="orderDetailId != null and orderDetailId != ''">order_detail_id = #{orderDetailId}, </if>
+			<if test="returnNo != null and returnNo != ''">return_no = #{returnNo}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>
+			<if test="state != null">state = #{state}, </if>
+			<if test="productStatus != null">product_status = #{productStatus}, </if>
+			<if test="why != null and why != ''">why = #{why}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="auditTime != null">audit_time = #{auditTime}, </if>
+			<if test="auditWhy != null and auditWhy != ''">audit_why = #{auditWhy}, </if>
+			<if test="createdAt != null">created_at = #{createdAt, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedAt != null">updated_at = #{updatedAt, jdbcType=TIMESTAMP}, </if>
+			<if test="note != null">note = #{note}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.id != null"> and id = #{o.id}</if>
+            <if test="o.id != null"> and a.id = #{o.id}</if>
+			<if test="o.orderNo != null and o.orderNo != ''"> and a.order_no = #{o.orderNo}</if>
+			<if test="o.orderDetailId != null and o.orderDetailId != ''"> and a.order_detail_id = #{o.orderDetailId}</if>
+			<if test="o.returnNo != null and o.returnNo != ''"> and a.return_no = #{o.returnNo}</if>
+			<if test="o.userId != null"> and a.user_id = #{o.userId}</if>
+			<if test="o.state != null"> and a.state = #{o.state}</if>
+			<if test="o.productStatus != null"> and a.product_status = #{o.productStatus}</if>
+			<if test="o.why != null and o.why != ''"> and a.why = #{o.why}</if>
+			<if test="o.status != null"> and a.status = #{o.status}</if>
+			<if test="o.auditTime != null"> and a.audit_time = #{o.auditTime}</if>
+			<if test="o.auditWhy != null and o.auditWhy != ''"> and a.audit_why = #{o.auditWhy}</if>
+			<if test="o.createdAt != null"> and a.created_at = #{o.createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedAt != null"> and a.updated_at = #{o.updatedAt, jdbcType=TIMESTAMP}</if>
+			<if test="o.note != null"> and a.note = #{o.note}</if>
+		
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="object" useGeneratedKeys="false" keyProperty="id">
+        insert into order_returns_apply
+        (
+            id
+            <if test="id != null">,id</if>
+			<if test="orderNo != null and orderNo != ''">,order_no</if>
+			<if test="orderDetailId != null and orderDetailId != ''">,order_detail_id</if>
+			<if test="returnNo != null and returnNo != ''">,return_no</if>
+			<if test="userId != null">,user_id</if>
+			<if test="state != null">,state</if>
+			<if test="productStatus != null">,product_status</if>
+			<if test="why != null and why != ''">,why</if>
+			<if test="status != null">,status</if>
+			<if test="auditTime != null">,audit_time</if>
+			<if test="auditWhy != null and auditWhy != ''">,audit_why</if>
+			<if test="createdAt != null">,created_at</if>
+			<if test="updatedAt != null">,updated_at</if>
+			<if test="note != null">,note</if>
+		
+        )
+        values
+        (
+            #{id}
+            <if test="id != null">,#{id}</if>
+			<if test="orderNo != null and orderNo != ''">,#{orderNo}</if>
+			<if test="orderDetailId != null and orderDetailId != ''">,#{orderDetailId}</if>
+			<if test="returnNo != null and returnNo != ''">,#{returnNo}</if>
+			<if test="userId != null">,#{userId}</if>
+			<if test="state != null">,#{state}</if>
+			<if test="productStatus != null">,#{productStatus}</if>
+			<if test="why != null and why != ''">,#{why}</if>
+			<if test="status != null">,#{status}</if>
+			<if test="auditTime != null">,#{auditTime}</if>
+			<if test="auditWhy != null and auditWhy != ''">,#{auditWhy}</if>
+			<if test="createdAt != null">,#{createdAt, jdbcType=TIMESTAMP}</if>
+			<if test="updatedAt != null">,#{updatedAt, jdbcType=TIMESTAMP}</if>
+			<if test="note != null">,#{note}</if>
+		
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="list" useGeneratedKeys="false">
+        insert into order_returns_apply
+        (
+            id, id,order_no,order_detail_id,return_no,user_id,state,product_status,why,status,audit_time,audit_why,created_at,updated_at,note
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderNo},#{item.orderDetailId},#{item.returnNo},#{item.userId},#{item.state},#{item.productStatus},#{item.why},#{item.status},#{item.auditTime},#{item.auditWhy},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.note}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="replaceList" parameterType="list" useGeneratedKeys="false">
+        insert into order_returns_apply
+        (
+            id, id,order_no,order_detail_id,return_no,user_id,state,product_status,why,status,audit_time,audit_why,created_at,updated_at,note
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.id}, #{item.id},#{item.orderNo},#{item.orderDetailId},#{item.returnNo},#{item.userId},#{item.state},#{item.productStatus},#{item.why},#{item.status},#{item.auditTime},#{item.auditWhy},#{item.createdAt, jdbcType=TIMESTAMP},#{item.updatedAt, jdbcType=TIMESTAMP},#{item.note}
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+			id = values(id),
+			order_no = values(order_no),
+			order_detail_id = values(order_detail_id),
+			return_no = values(return_no),
+			user_id = values(user_id),
+			state = values(state),
+			product_status = values(product_status),
+			why = values(why),
+			status = values(status),
+			audit_time = values(audit_time),
+			audit_why = values(audit_why),
+			created_at = values(created_at),
+			updated_at = values(updated_at),
+			note = values(note)
+    </insert>
+
+    <update id="update" parameterType="object">
+        update order_returns_apply
+        <include refid="updateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from order_returns_apply where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="object">
+        select * from order_returns_apply a
+        <include refid="exampleWhereSql"/>
+    </select>
+    
+    <delete id="removeById" parameterType="long">
+        delete from order_returns_apply where id = #{id}
+    </delete>
+    
+    <delete id="removeByIds" parameterType="list">
+        delete from order_returns_apply where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultMap="resultMap">
+        select * from order_returns_apply
+    </select>
+    
+
+</mapper>

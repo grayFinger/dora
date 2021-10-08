@@ -2,11 +2,8 @@ package com.deng.order.bean;
 
 import com.dora.common.db.bean.IDEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
-import java.util.Date;
-
 
 @Data
 public class Order extends IDEntity {
@@ -109,20 +106,29 @@ public class Order extends IDEntity {
 	private Integer orderSettlementTime;
 	
 	/**
-	 * 是否是套餐
+	 * 是否是套餐(0,否，1是)
 	*/
-	private int isPackage;
+	private Byte isPackage;
 	
 	/**
-	 * 是否是积分产品
+	 * 是否是积分产产品(0,否，1是)
 	*/
-	private int isIntegral;
+	private Byte isIntegral;
 	
-	private Date createdAt;
+	/**
+	 * 创建时间
+	*/
+	private Integer createTime;
 	
-	private Date updatedAt;
+	/**
+	 * 更新时间
+	*/
+	private Integer updatedTime;
 	
-	private Date deletedAt;
+	/**
+	 * 删除时间
+	*/
+	private Integer deletedTime;
 	
 	
 }
